@@ -1,6 +1,6 @@
 # CONRIS  - CONSOLE TETRIS
 
-CONRIS is 'Tetris' game for the Linux Terminal.
+CONRIS is  a 'Tetris' game for the Linux Terminal.
 
 ## Usage
 
