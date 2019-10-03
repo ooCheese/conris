@@ -6,5 +6,7 @@
 
 	int readConfig();
 	char getCharProp(char * keyword,char def);
+	int getIntProp(char * keyword, int def);
+	void deleteAllConfigProps();
 
 #endif

@@ -17,13 +17,10 @@
 #include "configReader.h"
 
 #define MAX_BLOCKS 4
-#define PRINT_SLEEP 100000
 
 #define WAIT_IN_INTRO_SEC 1
 #define COUNT_DOWN 3
 #define COUNT_DOWN_SLEEP 1
-
-
 
 #define BLOCKED 0
 #define FREE 1
@@ -67,6 +64,7 @@ void printIntroduction();
 void countDown();
 
 static char DOWN_KEY = 'S',LEFT_KEY= 'A',RIGHT_KEY = 'D',ROTATE_KEY = 'W',QUIT_KEY = '.';
+static int PRINT_SLEEP = 100000;
 
 static Tetro * player;
 static int isGameOver = 0;
@@ -97,6 +95,7 @@ void loadConfig(){
 		RIGHT_KEY =  getCharProp("key.right",'D');
 		ROTATE_KEY = getCharProp("key.rotate",'R');
 		QUIT_KEY =  getCharProp("key.quit",'t');
+		PRINT_SLEEP = 1e6/getIntProp("speed.print",15);
 		
 		deleteAllConfigProps();
 	}

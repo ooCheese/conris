@@ -96,6 +96,25 @@ extern char getCharProp(char * keyword,char def){
 	return def;
 }
 
+extern int getIntProp(char * keyword, int def){
+	char * p;
+	int out = 0;
+	
+	while(*p != '\0'){
+		if(isdigit(*p)){
+			out*= 10;
+			out+= *p - '0';
+		}
+		p++;
+	}
+	
+	if(out == 0){
+		return def;
+	}
+	
+	return out;
+}
+
 
 char * findByKey(char * keyword){
 	KeyWordNode * tmp;
