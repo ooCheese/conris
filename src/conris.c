@@ -190,9 +190,14 @@ void grounded(char * field){
 void playerControl(Tetro * player,char * field){
     int input;
 
+    #ifdef __GNUC__
+		input = getchLINUX(0); /*only works on linux*/
+    #endif
     
-    /*only Works on Windows ()input = getch();*/
-	input = getchLINUX(0);
+    #ifdef _WIN32
+		input = getch(); /*only Works on Windows ()input = getch();*/
+    #endif
+    
     
 	handleInput(input,field);
 
