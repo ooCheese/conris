@@ -5,7 +5,7 @@
 
 #include "configReader.h"
 
-#define MAX_LINE_LENGTH 50
+#define MAX_LINE_LENGTH 80
 
 typedef struct keywordNode{
 	char keyword [MAX_KEY_WORD];
@@ -81,6 +81,21 @@ void addKeyWord(char * keyword, char * value){
 	
 }
 
+extern int getBoolProp(char * keyword, char def){
+	char * p;
+	
+	p = findByKey(keyword);
+	
+	if(strstr("true",p) != NULL){
+		return 1;
+	}else if(strstr("false",p) != NULL){
+		return 0;
+	}
+	
+	
+	return def;
+}
+
 extern char getCharProp(char * keyword,char def){
 	char * p;
 	
@@ -99,16 +114,20 @@ extern char getCharProp(char * keyword,char def){
 extern int getIntProp(char * keyword, int def){
 	char * p;
 	int out = 0;
+	int countNum = 0;
+	
+	p = findByKey(keyword);
 	
 	while(*p != '\0'){
 		if(isdigit(*p)){
+			countNum++;
 			out*= 10;
 			out+= *p - '0';
 		}
 		p++;
 	}
 	
-	if(out == 0){
+	if(countNum == 0){
 		return def;
 	}
 	

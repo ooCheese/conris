@@ -4,8 +4,6 @@
     
 	#define BLOCK_LOOK '#'
 	#define EMPTY_LOOK ' '
-	#define MAX_FIELD_X 10
-	#define MAX_FIELD_Y 20
 
 	#define I 0
 	#define L 1
@@ -13,7 +11,11 @@
 	#define T 3
 	#define S 4
 	#define Z 5
-
+	
+	
+	int getMaxY();
+	int getMaxX();
+	void setFieldSize(int x, int y);
 	void printField(char *field);
 	char *createField ();
 	void setNext(int *n);

@@ -1,8 +1,9 @@
 #include "field.h"
 #include "score.h"
 #include <stdio.h>
+#include <stdlib.h>
 
-static char field [MAX_FIELD_Y][MAX_FIELD_X];
+char * fieldp;
 
 int *nextP;
 char viewNext();
@@ -13,9 +14,28 @@ char controlRight = ' ';
 char controlRotate = ' ';
 char controlQuit = ' ';
 
+
 extern void setNext(int *n){
 	nextP = n;
 }
+
+static int MAX_FIELD_X;
+static int MAX_FIELD_Y;
+
+extern void setFieldSize(int x, int y){
+	MAX_FIELD_X = x;
+	MAX_FIELD_Y = y;
+	printf("fieldSize: %i %i \n",x,y);
+}
+
+extern int getMaxY(){
+	return MAX_FIELD_Y;
+}
+
+extern int getMaxX(){
+	return MAX_FIELD_X;
+}
+
 
 extern void setControls(char cd,char cl, char cr,char cro,char cq){
 	controlDown = cd;
@@ -42,6 +62,7 @@ void printExtraInfos(int i){
 
 extern void printPreView(int count){
 	int i,j;
+	
 
     for(i = 0; i <MAX_FIELD_Y;i++){
         printf("|");
@@ -101,17 +122,18 @@ char viewNext(){
 extern char *createField (){
     int i,j;
     char * p;
+    
+    p = malloc(sizeof(int)*MAX_FIELD_X*MAX_FIELD_Y);
 
     for(i = 0; i <MAX_FIELD_Y;i++){
         for(j = 0; j <MAX_FIELD_X;j++){
-            field[i][j] = EMPTY_LOOK;
+            *p = EMPTY_LOOK;
+            p++;
         }
         
     }
 
-    p = *field;
 
-    i = 0;
     return p;
 }
 

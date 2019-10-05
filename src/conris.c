@@ -19,8 +19,6 @@
 #define MAX_BLOCKS 4
 
 #define WAIT_IN_INTRO_SEC 1
-#define COUNT_DOWN 3
-#define COUNT_DOWN_SLEEP 1
 
 #define BLOCKED 0
 #define FREE 1
@@ -70,6 +68,10 @@ static Tetro * player;
 static int isGameOver = 0;
 static char * field;
 int next = -1;
+int countdownOn = 1;
+
+int COUNT_DOWN = 3;
+int COUNT_DOWN_SLEEP = 1;
 
 pthread_t playerThread;
 pthread_t fallThread;
@@ -81,7 +83,7 @@ int main(void){
 	loadConfig();
     field = createField();
     setField(field);
-    setSpawnPos(MAX_FIELD_X/2);
+    setSpawnPos(getMaxX()/2);
     setNext(&next);
     setControls(DOWN_KEY,LEFT_KEY,RIGHT_KEY,ROTATE_KEY,QUIT_KEY);
     return gameLoop(field);
@@ -96,6 +98,10 @@ void loadConfig(){
 		ROTATE_KEY = getCharProp("key.rotate",'R');
 		QUIT_KEY =  getCharProp("key.quit",'t');
 		PRINT_SLEEP = 1e6/getIntProp("speed.print",15);
+		setFieldSize(getIntProp("field.x",10),getIntProp("field.y",20));
+		countdownOn = getBoolProp("start.countdown",1);
+		COUNT_DOWN = getIntProp("start.countdown.counts",3);
+		COUNT_DOWN_SLEEP = getIntProp("start.countdown.seconds",1);
 		
 		deleteAllConfigProps();
 	}
@@ -108,7 +114,10 @@ int gameLoop(char * field){
     player = spawn(field);
     
     printIntroduction();
-    countDown();
+    if(countdownOn){
+		countDown();
+	}
+	
     printf("\n*** START ***\n\n");
     
     rc = pthread_create(&playerThread, NULL, playerTurn, NULL);
@@ -124,6 +133,7 @@ int gameLoop(char * field){
     pthread_join(fallThread, NULL );
     pthread_join(printThread, NULL );
     printf("\n*** GAME OVER ***\n\n");
+    free(field);
     return EXIT_SUCCESS;
 }
 
@@ -312,15 +322,15 @@ int checkBlock(Tetro * player,char * field, int x, int y,int yDirection){
 	char * startCell;
     startCell = field;
 	
-	if(x<0 || x>=MAX_FIELD_X){
+	if(x<0 || x>=getMaxX()){
 		return BLOCKED;
 	}else if (y<0){
 		return BLOCKED;
-	}else if(y>=MAX_FIELD_Y){
+	}else if(y>=getMaxY()){
 		return GROUNDED;
 	}
 	
-	field+=y*MAX_FIELD_X+x;
+	field+=y*getMaxX()+x;
 	if(*field != EMPTY_LOOK && checkCell(player,x,y)){
 		field = startCell;
 		
@@ -392,7 +402,7 @@ Tetro *malipulateField(Tetro *tetro,char * field,char look, int wasGrounded){
         x += tetro->pos->x;
         y += tetro->pos->y;
 
-        field+= y*MAX_FIELD_X+x;
+        field+= y*getMaxX()+x;
         
         if(wasGrounded && *field == BLOCK_LOOK){
 			isGameOver = 1;
