@@ -102,6 +102,8 @@ void loadConfig(){
 		countdownOn = getBoolProp("start.countdown",1);
 		COUNT_DOWN = getIntProp("start.countdown.counts",3);
 		COUNT_DOWN_SLEEP = getIntProp("start.countdown.seconds",1);
+		setEmptyLook(getCharProp("look.empty",' '));
+		setBlockLook(getCharProp("look.block",'#'));
 		
 		deleteAllConfigProps();
 	}
@@ -331,7 +333,7 @@ int checkBlock(Tetro * player,char * field, int x, int y,int yDirection){
 	}
 	
 	field+=y*getMaxX()+x;
-	if(*field != EMPTY_LOOK && checkCell(player,x,y)){
+	if(*field != getEmptyLook() && checkCell(player,x,y)){
 		field = startCell;
 		
 		if(yDirection != 0){
@@ -383,11 +385,11 @@ Tetro *spawn(char * field){
 }
 
 void deleteTetroFromField(Tetro *tetro,char * field){
-    malipulateField(tetro, field , EMPTY_LOOK,0);
+    malipulateField(tetro, field , getEmptyLook(),0);
 }
 
 Tetro *spawnTetro(Tetro *tetro,char * field,int wasGrounded){
-    return malipulateField(tetro,field,BLOCK_LOOK,wasGrounded);
+    return malipulateField(tetro,field,getBlockLook(),wasGrounded);
 }
 
 Tetro *malipulateField(Tetro *tetro,char * field,char look, int wasGrounded){
@@ -404,7 +406,7 @@ Tetro *malipulateField(Tetro *tetro,char * field,char look, int wasGrounded){
 
         field+= y*getMaxX()+x;
         
-        if(wasGrounded && *field == BLOCK_LOOK){
+        if(wasGrounded && *field == getBlockLook()){
 			isGameOver = 1;
 			return tetro;
 		}

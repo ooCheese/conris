@@ -19,6 +19,7 @@ KeyWordNode * confhead = NULL;
 void addKeyWord(char * keyword, char  * value);
 void analyzeLine(char * line);
 char * findByKey(char  * keyword);
+int filterInt(char *p,int def);
 
 extern int readConfig(char * path){
 	FILE * file;
@@ -46,7 +47,7 @@ void analyzeLine(char * line){
 		if(*line == '='){
 			*wordP = '\0';
 			wordP = value;
-		}else if(isalnum(*line) || *line== '.'){
+		}else if(*line != ' '&&*line>='!'){
 			*wordP = *line;
 			wordP++;
 		}
@@ -97,12 +98,21 @@ extern int getBoolProp(char * keyword, char def){
 }
 
 extern char getCharProp(char * keyword,char def){
-	char * p;
+	char * p, * tmp;
 	
 	p = findByKey(keyword);
 	
+	printf("P: %c \n",*p);
+	if(*p == '\\'){
+		tmp = p;
+		tmp++;
+		if(isdigit(*tmp)){
+			return (char)filterInt(tmp,def);
+		}
+	}
+	
 	while(*p != '\0'){
-		if(isalpha(*p)){
+		if(*p != ' '&&*p>='!'){
 			return *p;
 		}
 		p++;
@@ -113,10 +123,15 @@ extern char getCharProp(char * keyword,char def){
 
 extern int getIntProp(char * keyword, int def){
 	char * p;
-	int out = 0;
-	int countNum = 0;
 	
 	p = findByKey(keyword);
+	return filterInt(p,def);
+	
+}
+
+int filterInt(char *p,int def){
+	int out = 0;
+	int countNum = 0;
 	
 	while(*p != '\0'){
 		if(isdigit(*p)){

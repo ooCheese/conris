@@ -1,9 +1,6 @@
 
 #ifndef FIELD_H
     #define FIELD_H
-    
-	#define BLOCK_LOOK '#'
-	#define EMPTY_LOOK ' '
 
 	#define I 0
 	#define L 1
@@ -12,7 +9,10 @@
 	#define S 4
 	#define Z 5
 	
-	
+	void setBlockLook(char n);
+	void setEmptyLook(char n);
+	char getBlockLook();
+	char getEmptyLook();
 	int getMaxY();
 	int getMaxX();
 	void setFieldSize(int x, int y);

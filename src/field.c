@@ -14,6 +14,9 @@ char controlRight = ' ';
 char controlRotate = ' ';
 char controlQuit = ' ';
 
+char BLOCK_LOOK = '#';
+char EMPTY_LOOK = ' ';
+
 
 extern void setNext(int *n){
 	nextP = n;
@@ -26,6 +29,22 @@ extern void setFieldSize(int x, int y){
 	MAX_FIELD_X = x;
 	MAX_FIELD_Y = y;
 	printf("fieldSize: %i %i \n",x,y);
+}
+
+extern void setBlockLook(char n){
+	BLOCK_LOOK = n;
+}
+
+extern void setEmptyLook(char n){
+	EMPTY_LOOK = n;
+}
+
+extern char getEmptyLook(){
+	return EMPTY_LOOK;
+}
+
+extern char getBlockLook(){
+	return BLOCK_LOOK;
 }
 
 extern int getMaxY(){
