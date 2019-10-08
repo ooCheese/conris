@@ -51,6 +51,7 @@ void left(char * field);
 void right(char * field);
 void down(char * field);
 void rotate(char * field);
+void gameover();
 
 void loadConfig();
 
@@ -134,9 +135,17 @@ int gameLoop(char * field){
 	pthread_join(playerThread, NULL );
     pthread_join(fallThread, NULL );
     pthread_join(printThread, NULL );
-    printf("\n*** GAME OVER ***\n\n");
-    free(field);
+    gameover();
+    
     return EXIT_SUCCESS;
+}
+
+void gameover(){
+	printf("\n*** GAME OVER ***\n\n");
+	printf("POINT: \t%5i \n",getPoints());
+	printf("LINE: \t%5i \n",getLines());
+	printf("LEVEL: \t%5i \n",getLvl());
+	
 }
 
 void printIntroduction(){
