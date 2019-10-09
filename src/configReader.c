@@ -102,7 +102,6 @@ extern char getCharProp(char * keyword,char def){
 	
 	p = findByKey(keyword);
 	
-	printf("P: %c \n",*p);
 	if(*p == '\\'){
 		tmp = p;
 		tmp++;
