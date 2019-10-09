@@ -51,6 +51,7 @@ void left(char * field);
 void right(char * field);
 void down(char * field);
 void rotate(char * field);
+void hold(char *field);
 void gameover();
 
 void loadConfig();
@@ -62,7 +63,7 @@ static void *printLoop(void * vargp);
 void printIntroduction();
 void countDown();
 
-static char DOWN_KEY = 'S',LEFT_KEY= 'A',RIGHT_KEY = 'D',ROTATE_KEY = 'W',QUIT_KEY = '.';
+static char DOWN_KEY = 'S',LEFT_KEY= 'A',RIGHT_KEY = 'D',ROTATE_KEY = 'W',QUIT_KEY = '.',HOLD_KEY = 'H';
 static int PRINT_SLEEP = 100000;
 
 static Tetro * player;
@@ -70,6 +71,7 @@ static int isGameOver = 0;
 static char * field;
 int next = -1;
 int countdownOn = 1;
+int isHolded = 0;
 
 int COUNT_DOWN = 3;
 int COUNT_DOWN_SLEEP = 1;
@@ -77,6 +79,8 @@ int COUNT_DOWN_SLEEP = 1;
 pthread_t playerThread;
 pthread_t fallThread;
 pthread_t printThread;
+
+Tetro * holded = NULL;
 
 
 int main(void){
@@ -86,7 +90,7 @@ int main(void){
     setField(field);
     setSpawnPos(getMaxX()/2);
     setNext(&next);
-    setControls(DOWN_KEY,LEFT_KEY,RIGHT_KEY,ROTATE_KEY,QUIT_KEY);
+    setControls(DOWN_KEY,LEFT_KEY,RIGHT_KEY,ROTATE_KEY,QUIT_KEY,HOLD_KEY);
     return gameLoop(field);
 }
 
@@ -97,7 +101,8 @@ void loadConfig(){
 		LEFT_KEY =  getCharProp("key.left",'A');
 		RIGHT_KEY =  getCharProp("key.right",'D');
 		ROTATE_KEY = getCharProp("key.rotate",'R');
-		QUIT_KEY =  getCharProp("key.quit",'t');
+		QUIT_KEY =  getCharProp("key.quit",'.');
+		HOLD_KEY = getCharProp("key.hold",'H');
 		PRINT_SLEEP = 1e6/getIntProp("speed.print",15);
 		setFieldSize(getIntProp("field.x",10),getIntProp("field.y",20));
 		countdownOn = getBoolProp("start.countdown",1);
@@ -240,6 +245,30 @@ void handleInput(int input,char * field){
 		addNode(rotate);
 	}else if(input == QUIT_KEY){
 		isGameOver = 1;
+	}else if(input == HOLD_KEY){
+		addNode(hold);
+	}
+	
+}
+
+void hold(char *field){
+	Tetro * tmp;
+	
+	
+	if(!isHolded){
+		
+		malipulateField(player,field,getEmptyLook(),0);
+		if(holded == NULL){
+			holded = player;
+			player = spawn(field);
+		}else{
+			tmp = player;
+			player = holded;
+			holded = tmp;
+		}
+		
+		isHolded = 1;
+		setNameOfHolded(holded->name);
 	}
 	
 }
@@ -382,6 +411,8 @@ Tetro *spawn(char * field){
 	}
 	
 	next = rand()%6;
+	
+	isHolded = 0;
 	
 	switch(num){
 		case I: return spawnTetro(createI(),field,1);

@@ -8,12 +8,13 @@ typedef struct block{
 
 typedef struct tetro{
     Vector2D * pos;
+    char name;
     Block * block[4];
 }Tetro;
 
 void setSpawnPos(int x);
 void deleteTetro(Tetro * t);
-Tetro *createTetro(Vector2D * blockPos[4]);
+Tetro *createTetro(char name,Vector2D * blockPos[4]);
 Tetro *createI();
 Tetro *createL();
 Tetro *createJ();

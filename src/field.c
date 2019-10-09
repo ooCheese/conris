@@ -13,10 +13,17 @@ char controlLeft = ' ';
 char controlRight = ' ';
 char controlRotate = ' ';
 char controlQuit = ' ';
+char controlHold = ' ';
 
 char BLOCK_LOOK = '#';
 char EMPTY_LOOK = ' ';
 
+char nameOfHolded = ' ';
+
+
+extern void setNameOfHolded(char name){
+	nameOfHolded = name;
+}
 
 extern void setNext(int *n){
 	nextP = n;
@@ -56,12 +63,13 @@ extern int getMaxX(){
 }
 
 
-extern void setControls(char cd,char cl, char cr,char cro,char cq){
+extern void setControls(char cd,char cl, char cr,char cro,char cq, char ch){
 	controlDown = cd;
 	controlLeft = cl;
 	controlRight = cr;
 	controlRotate = cro;
 	controlQuit = cq;
+	controlHold = ch;
 }
 
 extern void * deleteField(char * field){
@@ -75,11 +83,13 @@ void printExtraInfos(int i){
 		case 2: printf("\t LINES: %i",getLines());break;
 		case 3: printf("\t LEVEL: %i",getLvl());break;
 		case 5: printf("\t NEXT: %c",viewNext());break;
-		case 7: printf("\t |%c| LEFT",controlLeft);break;
-		case 8: printf("\t |%c| RIGHT",controlRight);break;
-		case 9: printf("\t |%c| DOWN",controlDown);break;
-		case 10: printf("\t |%c| ROTATE",controlRotate);break;
-		case 12: printf("\t |%c| QUIT",controlQuit);break;
+		case 6: printf("\t HOLD: %c",nameOfHolded);break;
+		case 8: printf("\t |%c| LEFT",controlLeft);break;
+		case 9: printf("\t |%c| RIGHT",controlRight);break;
+		case 10: printf("\t |%c| DOWN",controlDown);break;
+		case 11: printf("\t |%c| ROTATE",controlRotate);break;
+		case 12: printf("\t |%c| HOLD",controlHold);break;
+		case 14: printf("\t |%c| QUIT",controlQuit);break;
 	}
 }
 

@@ -20,8 +20,9 @@
 	char *createField ();
 	void setNext(int *n);
 	void printPreView(int count);
-	void setControls(char cd,char cl, char cr,char cro,char cq);
+	void setControls(char cd,char cl, char cr,char cro,char cq, char ch);
 	void * deleteField(char * field);
+	void setNameOfHolded(char name);
 
 	void clearLine(char * field, int line);
 	void checkForLineClear(char * field);
