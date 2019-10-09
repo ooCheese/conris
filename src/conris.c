@@ -283,6 +283,7 @@ int checkRotate(Tetro * player,char * field){
 	for(i = 0; i<MAX_BLOCKS;i++){
         x = player->block[i]->pos->y;
         y = player->block[i]->pos->x;
+        x*=-1;
         x += player->pos->x;
         y += player->pos->y;
         
