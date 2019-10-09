@@ -135,6 +135,7 @@ int gameLoop(char * field){
 	pthread_join(playerThread, NULL );
     pthread_join(fallThread, NULL );
     pthread_join(printThread, NULL );
+    addNode(deleteField);
     gameover();
     
     return EXIT_SUCCESS;
@@ -142,8 +143,8 @@ int gameLoop(char * field){
 
 void gameover(){
 	printf("\n*** GAME OVER ***\n\n");
-	printf("POINT: \t%5i \n",getPoints());
-	printf("LINE: \t%5i \n",getLines());
+	printf("POINTS: \t%5i \n",getPoints());
+	printf("LINES: \t%5i \n",getLines());
 	printf("LEVEL: \t%5i \n",getLvl());
 	
 }

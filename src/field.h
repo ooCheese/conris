@@ -21,6 +21,7 @@
 	void setNext(int *n);
 	void printPreView(int count);
 	void setControls(char cd,char cl, char cr,char cro,char cq);
+	void * deleteField(char * field);
 
 	void clearLine(char * field, int line);
 	void checkForLineClear(char * field);

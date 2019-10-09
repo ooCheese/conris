@@ -64,6 +64,10 @@ extern void setControls(char cd,char cl, char cr,char cro,char cq){
 	controlQuit = cq;
 }
 
+extern void * deleteField(char * field){
+	free(field);
+}
+
 void printExtraInfos(int i){
 	
 	switch(i){
