@@ -140,9 +140,11 @@ char viewNext(){
 
 extern char *createField (){
     int i,j;
-    char * p;
+    char * p, * tmp;
     
-    p = malloc(sizeof(int)*MAX_FIELD_X*MAX_FIELD_Y);
+    p = malloc(sizeof(char)*MAX_FIELD_X*MAX_FIELD_Y);
+    
+    tmp = p;
 
     for(i = 0; i <MAX_FIELD_Y;i++){
         for(j = 0; j <MAX_FIELD_X;j++){
@@ -152,8 +154,7 @@ extern char *createField (){
         
     }
 
-
-    return p;
+    return tmp;
 }
 
 extern void clearLine(char * field, int line){
@@ -187,10 +188,11 @@ extern void checkForLineClear(char * field){
     for(i = 0;i<MAX_FIELD_Y;i++){
 		isFull = 1;
         for (j = 0;j<MAX_FIELD_X;j++){
-            field++;
-            if(*field == EMPTY_LOOK){
+			
+            if(*field != BLOCK_LOOK){
                 isFull = 0;
             }
+            field++;
         }
 
         if(isFull){

@@ -16,24 +16,33 @@ typedef struct keywordNode{
 
 KeyWordNode * confhead = NULL;
 
-void addKeyWord(char * keyword, char  * value);
+
+void analyzeFile(FILE * file);
 void analyzeLine(char * line);
+
+void addKeyWord(char * keyword, char  * value);
 char * findByKey(char  * keyword);
 int filterInt(char *p,int def);
 
 extern int readConfig(char * path){
 	FILE * file;
-	char line [MAX_LINE_LENGTH];
 	
 	if((file = fopen(path,"r")) == NULL){
 		return 0;
 	}
+	
+	analyzeFile(file);
+	return 1;
+}
+
+void analyzeFile(FILE * file){
+	char line [MAX_LINE_LENGTH];
+	
 	while(fgets(line,MAX_LINE_LENGTH,file)){
 		analyzeLine(line);
 	}
 	
 	fclose(file);
-	return 1;
 }
 
 void analyzeLine(char * line){

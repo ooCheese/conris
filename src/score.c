@@ -22,7 +22,7 @@ extern void lineClears(int num){
     if(num == 4){
         points += CONRIS_BONUS;
     }
-
+	
     points += POINTS_FOR_LINE * num;
     lines += num; 
     
