@@ -11,7 +11,7 @@ conris: $(objects)
 run: conris
 	./conris
 	
-debug:
+debug: conris
 	-valgrind --leak-check=full --track-origins=yes ./$(output)
 
 

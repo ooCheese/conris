@@ -3,6 +3,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define KNRM  "\x1B[0m"
+#define KRED  "\x1B[31m"
+#define KGRN  "\x1B[32m"
+#define KYEL  "\x1B[33m"
+#define KBLU  "\x1B[34m"
+#define KMAG  "\x1B[35m"
+#define KCYN  "\x1B[36m"
+#define KWHT  "\x1B[37m"
+
+
 char * fieldp;
 
 int *nextP;
@@ -98,7 +108,7 @@ extern void printPreView(int count){
 	
 
     for(i = 0; i <MAX_FIELD_Y;i++){
-        printf("|");
+        printf("%s|%s",KNRM,KCYN);
         for(j = 0; j <MAX_FIELD_X;j++){
 			if(j == MAX_FIELD_X/2 && i ==MAX_FIELD_Y/2){
 				printf("%i ",count);
@@ -107,7 +117,7 @@ extern void printPreView(int count){
 			}
             
         }	
-		printf("|\n");
+		printf("%s|\n",KNRM);
     }
     
     for(j = 0; j <MAX_FIELD_X;j++){
@@ -121,12 +131,12 @@ extern void printField(char *field){
     int i,j;
 
     for(i = 0; i <MAX_FIELD_Y;i++){
-        printf("|");
+        printf("%s|%s",KNRM,KCYN);
         for(j = 0; j <MAX_FIELD_X;j++){
             printf("%c ", *field);
             field++;
         }
-        printf("|");
+        printf("%s|",KNRM);
         
         printExtraInfos(i);
 		
