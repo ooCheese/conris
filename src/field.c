@@ -1,5 +1,6 @@
 #include "field.h"
 #include "score.h"
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -12,6 +13,7 @@
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
 
+ const char * CONSOLE_COLORS [] = {KNRM,KRED,KGRN,KYEL,KBLU,KMAG,KCYN,KWHT};
 
 char * fieldp;
 
@@ -27,6 +29,8 @@ char controlHold = ' ';
 
 char BLOCK_LOOK = '#';
 char EMPTY_LOOK = ' ';
+
+int fieldColorNumber = 0;
 
 char nameOfHolded = ' ';
 
@@ -72,6 +76,27 @@ extern int getMaxX(){
 	return MAX_FIELD_X;
 }
 
+extern void setFieldColor(char * colorname){
+
+    if(strstr("NORMAL",colorname)){
+        fieldColorNumber = 0;
+    }else if(strstr("RED",colorname)){
+        fieldColorNumber = 1;
+    }else if(strstr("GREEN",colorname)){
+        fieldColorNumber = 2;
+    }else if(strstr("YELLOW",colorname)){
+        fieldColorNumber = 3;
+    }else if(strstr("BLUE",colorname)){
+        fieldColorNumber = 4;
+    }else if(strstr("MAGENTER",colorname)){
+        fieldColorNumber = 5;
+    }else if(strstr("CYAN",colorname)){
+        fieldColorNumber = 6;
+    }else if(strstr("WHITE",colorname)){
+         fieldColorNumber = 7;
+    }
+    
+}
 
 extern void setControls(char cd,char cl, char cr,char cro,char cq, char ch){
 	controlDown = cd;
@@ -84,6 +109,7 @@ extern void setControls(char cd,char cl, char cr,char cro,char cq, char ch){
 
 extern void * deleteField(char * field){
 	free(field);
+    return NULL;
 }
 
 void printExtraInfos(int i){
@@ -108,7 +134,7 @@ extern void printPreView(int count){
 	
 
     for(i = 0; i <MAX_FIELD_Y;i++){
-        printf("%s|%s",KNRM,KCYN);
+        printf("%s|%s",KNRM,CONSOLE_COLORS[fieldColorNumber]);
         for(j = 0; j <MAX_FIELD_X;j++){
 			if(j == MAX_FIELD_X/2 && i ==MAX_FIELD_Y/2){
 				printf("%i ",count);
@@ -131,7 +157,7 @@ extern void printField(char *field){
     int i,j;
 
     for(i = 0; i <MAX_FIELD_Y;i++){
-        printf("%s|%s",KNRM,KCYN);
+        printf("%s|%s",KNRM,CONSOLE_COLORS[fieldColorNumber]);
         for(j = 0; j <MAX_FIELD_X;j++){
             printf("%c ", *field);
             field++;

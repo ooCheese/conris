@@ -26,4 +26,6 @@
 
 	void clearLine(char * field, int line);
 	void checkForLineClear(char * field);
+	void setFieldColor(char * colorname);
+	
 #endif

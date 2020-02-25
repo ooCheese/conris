@@ -73,6 +73,7 @@ void addKeyWord(char * keyword, char * value){
 	KeyWordNode * new= malloc(sizeof(KeyWordNode));
 	
 	new->next = NULL;
+	printf("keyword %s value : %s \n",keyword,value);
 	
 	strcpy(new->keyword,keyword);
 	strcpy(new->value,value );
@@ -104,6 +105,16 @@ extern int getBoolProp(char * keyword, char def){
 	
 	
 	return def;
+}
+
+extern char * getStringProp(char * keyword,char * def){
+	char * value;
+
+	value  = findByKey(keyword);
+	if (value == NULL){
+		return def;
+	}
+	return value;
 }
 
 extern char getCharProp(char * keyword,char def){

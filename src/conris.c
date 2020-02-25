@@ -110,6 +110,7 @@ void loadConfig(){
 		COUNT_DOWN_SLEEP = getIntProp("start.countdown.seconds",1);
 		setEmptyLook(getCharProp("look.empty",' '));
 		setBlockLook(getCharProp("look.block",'#'));
+		setFieldColor(getStringProp("color.field","NORMAL"));
 		
 		deleteAllConfigProps();
 	}

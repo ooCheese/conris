@@ -9,5 +9,6 @@
 	int getIntProp(char * keyword, int def);
 	void deleteAllConfigProps();
 	int getBoolProp(char * keyword, char def);
+	char * getStringProp(char * keyword,char * def);
 
 #endif
