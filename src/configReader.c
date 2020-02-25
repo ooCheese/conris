@@ -73,7 +73,6 @@ void addKeyWord(char * keyword, char * value){
 	KeyWordNode * new= malloc(sizeof(KeyWordNode));
 	
 	new->next = NULL;
-	printf("keyword %s value : %s \n",keyword,value);
 	
 	strcpy(new->keyword,keyword);
 	strcpy(new->value,value );

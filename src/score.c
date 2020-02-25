@@ -33,7 +33,7 @@ extern void lineClears(int num){
 
 void nextLvl(){
 	
-	linesForNextLvl = linesForNextLvl * LVL_FACTOR;
+	linesForNextLvl = (int)(linesForNextLvl * LVL_FACTOR);
 	lvl++;
 	calculateSpeed();
 }

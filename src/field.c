@@ -13,12 +13,12 @@
 #define KCYN  "\x1B[36m"
 #define KWHT  "\x1B[37m"
 
- const char * CONSOLE_COLORS [] = {KNRM,KRED,KGRN,KYEL,KBLU,KMAG,KCYN,KWHT};
-
+const char * CONSOLE_COLORS [] = {KNRM,KRED,KGRN,KYEL,KBLU,KMAG,KCYN,KWHT};
 char * fieldp;
-
 int *nextP;
+
 char viewNext();
+int colorNameToNumber(char * colorname);
 
 char controlDown = ' ';
 char controlLeft = ' ';
@@ -77,25 +77,7 @@ extern int getMaxX(){
 }
 
 extern void setFieldColor(char * colorname){
-
-    if(strstr("NORMAL",colorname)){
-        fieldColorNumber = 0;
-    }else if(strstr("RED",colorname)){
-        fieldColorNumber = 1;
-    }else if(strstr("GREEN",colorname)){
-        fieldColorNumber = 2;
-    }else if(strstr("YELLOW",colorname)){
-        fieldColorNumber = 3;
-    }else if(strstr("BLUE",colorname)){
-        fieldColorNumber = 4;
-    }else if(strstr("MAGENTER",colorname)){
-        fieldColorNumber = 5;
-    }else if(strstr("CYAN",colorname)){
-        fieldColorNumber = 6;
-    }else if(strstr("WHITE",colorname)){
-         fieldColorNumber = 7;
-    }
-    
+    fieldColorNumber = colorNameToNumber(colorname);
 }
 
 extern void setControls(char cd,char cl, char cr,char cro,char cq, char ch){
@@ -107,9 +89,30 @@ extern void setControls(char cd,char cl, char cr,char cro,char cq, char ch){
 	controlHold = ch;
 }
 
-extern void * deleteField(char * field){
+extern void deleteField(char * field){
 	free(field);
-    return NULL;
+}
+
+int colorNameToNumber(char * colorname){
+    if(strstr("NORMAL",colorname)){
+        return 0;
+    }else if(strstr("RED",colorname)){
+        return 1;
+    }else if(strstr("GREEN",colorname)){
+        return 2;
+    }else if(strstr("YELLOW",colorname)){
+        return 3;
+    }else if(strstr("BLUE",colorname)){
+        return 4;
+    }else if(strstr("MAGENTER",colorname)){
+        return 5;
+    }else if(strstr("CYAN",colorname)){
+        return 6;
+    }else if(strstr("WHITE",colorname)){
+         return 7;
+    }
+
+    return 0;
 }
 
 void printExtraInfos(int i){
