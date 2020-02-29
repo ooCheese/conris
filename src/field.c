@@ -30,6 +30,9 @@ char controlHold = ' ';
 char BLOCK_LOOK = '#';
 char EMPTY_LOOK = ' ';
 
+const int EMPTY =  0;
+const int NORMAL_BLOCK = 1;
+
 int fieldColorNumber = 0;
 
 char nameOfHolded = ' ';
@@ -54,6 +57,14 @@ extern void setFieldSize(int x, int y){
 
 extern void setBlockLook(char n){
 	BLOCK_LOOK = n;
+}
+
+extern int getEmptyIdentifier(){
+    return EMPTY;
+}
+
+extern int getBlockIdentifier(){
+    return NORMAL_BLOCK;
 }
 
 extern void setEmptyLook(char n){
@@ -162,7 +173,13 @@ extern void printField(char *field){
     for(i = 0; i <MAX_FIELD_Y;i++){
         printf("%s|%s",KNRM,CONSOLE_COLORS[fieldColorNumber]);
         for(j = 0; j <MAX_FIELD_X;j++){
-            printf("%c ", *field);
+
+            if(*field > EMPTY){
+                printf("%c ",BLOCK_LOOK);
+            }else{
+                printf("%c ", EMPTY_LOOK);
+            }
+            
             field++;
         }
         printf("%s|",KNRM);
@@ -176,6 +193,15 @@ extern void printField(char *field){
 		printf("--");
     }
     printf("\n");
+}
+
+void printCell(char identifier){
+    
+    if(identifier > EMPTY){
+        printf("%c ",BLOCK_LOOK);
+    }else{
+        printf("%c ", EMPTY_LOOK);
+    }
 }
 
 char viewNext(){
@@ -201,7 +227,7 @@ extern char *createField (){
 
     for(i = 0; i <MAX_FIELD_Y;i++){
         for(j = 0; j <MAX_FIELD_X;j++){
-            *p = EMPTY_LOOK;
+            *p = EMPTY;
             p++;
         }
         
@@ -227,7 +253,7 @@ extern void clearLine(char * field, int line){
     /*last line*/
     for(j = 0; j<MAX_FIELD_X;j++){
         field--;
-        *field = EMPTY_LOOK;
+        *field = EMPTY;
     }
 
 }
@@ -242,7 +268,7 @@ extern void checkForLineClear(char * field){
 		isFull = 1;
         for (j = 0;j<MAX_FIELD_X;j++){
 			
-            if(*field != BLOCK_LOOK){
+            if(*field != NORMAL_BLOCK){
                 isFull = 0;
             }
             field++;

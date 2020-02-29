@@ -13,6 +13,10 @@
 	void setEmptyLook(char n);
 	char getBlockLook();
 	char getEmptyLook();
+
+	int getEmptyIdentifier();
+	int getBlockIdentifier();
+
 	int getMaxY();
 	int getMaxX();
 	void setFieldSize(int x, int y);

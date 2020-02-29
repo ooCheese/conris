@@ -258,7 +258,7 @@ void hold(char *field){
 	
 	if(!isHolded){
 		
-		malipulateField(player,field,getEmptyLook(),0);
+		malipulateField(player,field,getEmptyIdentifier(),0);
 		if(holded == NULL){
 			holded = player;
 			player = spawn(field);
@@ -374,7 +374,7 @@ int checkBlock(Tetro * player,char * field, int x, int y,int yDirection){
 	}
 	
 	field+=y*getMaxX()+x;
-	if(*field != getEmptyLook() && checkCell(player,x,y)){
+	if(*field != getEmptyIdentifier() && checkCell(player,x,y)){
 		field = startCell;
 		
 		if(yDirection != 0){
@@ -428,11 +428,11 @@ Tetro *spawn(char * field){
 }
 
 void deleteTetroFromField(Tetro *tetro,char * field){
-    malipulateField(tetro, field , getEmptyLook(),0);
+    malipulateField(tetro, field , getEmptyIdentifier(),0);
 }
 
 Tetro *spawnTetro(Tetro *tetro,char * field,int wasGrounded){
-    return malipulateField(tetro,field,getBlockLook(),wasGrounded);
+    return malipulateField(tetro,field,getBlockIdentifier(),wasGrounded);
 }
 
 Tetro *malipulateField(Tetro *tetro,char * field,char look, int wasGrounded){
@@ -449,7 +449,7 @@ Tetro *malipulateField(Tetro *tetro,char * field,char look, int wasGrounded){
 
         field+= y*getMaxX()+x;
         
-        if(wasGrounded && *field == getBlockLook()){
+        if(wasGrounded && *field == getBlockIdentifier()){
 			isGameOver = 1;
 			return tetro;
 		}
