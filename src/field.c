@@ -19,6 +19,8 @@ int *nextP;
 
 char viewNext();
 int colorNameToNumber(char * colorname);
+void printCell(char identifier);
+void setCellColor(char identifier);
 
 char controlDown = ' ';
 char controlLeft = ' ';
@@ -30,9 +32,10 @@ char controlHold = ' ';
 char BLOCK_LOOK = '#';
 char EMPTY_LOOK = ' ';
 
-const int EMPTY =  0;
-const int NORMAL_BLOCK = 1;
+const int EMPTY =  -1;
+const int NORMAL_BLOCK = 0;
 
+int fullColorMode = 1;
 int fieldColorNumber = 0;
 
 char nameOfHolded = ' ';
@@ -59,11 +62,11 @@ extern void setBlockLook(char n){
 	BLOCK_LOOK = n;
 }
 
-extern int getEmptyIdentifier(){
+extern char getEmptyIdentifier(){
     return EMPTY;
 }
 
-extern int getBlockIdentifier(){
+extern char getBlockIdentifier(){
     return NORMAL_BLOCK;
 }
 
@@ -174,11 +177,7 @@ extern void printField(char *field){
         printf("%s|%s",KNRM,CONSOLE_COLORS[fieldColorNumber]);
         for(j = 0; j <MAX_FIELD_X;j++){
 
-            if(*field > EMPTY){
-                printf("%c ",BLOCK_LOOK);
-            }else{
-                printf("%c ", EMPTY_LOOK);
-            }
+            printCell(*field);
             
             field++;
         }
@@ -198,10 +197,19 @@ extern void printField(char *field){
 void printCell(char identifier){
     
     if(identifier > EMPTY){
+        setCellColor(identifier);
         printf("%c ",BLOCK_LOOK);
+
+        /*reset Color*/
+        printf("%s",CONSOLE_COLORS[fieldColorNumber]);
     }else{
         printf("%c ", EMPTY_LOOK);
     }
+}
+
+void setCellColor(char identifier){
+    const char * color = CONSOLE_COLORS[identifier];
+    printf("%s",color);
 }
 
 char viewNext(){
@@ -268,7 +276,7 @@ extern void checkForLineClear(char * field){
 		isFull = 1;
         for (j = 0;j<MAX_FIELD_X;j++){
 			
-            if(*field != NORMAL_BLOCK){
+            if(*field >= NORMAL_BLOCK){
                 isFull = 0;
             }
             field++;

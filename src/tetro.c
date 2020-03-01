@@ -29,7 +29,7 @@ extern Tetro *createT(){
 	Vector2D *blocks [MAX_BLOCKS];
 
     blocks[0] = createVector2D(0,0);
-    blocks[1] = createVector2D(0,-1);
+    blocks[1] = createVector2D(-1,0);
     blocks[2] = createVector2D(0,1);
     blocks[3] = createVector2D(1,0);
     return createTetro('T',blocks);

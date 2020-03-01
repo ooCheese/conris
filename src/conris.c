@@ -29,7 +29,7 @@
 
 Tetro *spawnTetro(Tetro *tetro,char *field,int wasGrounded);
 Tetro *spawn(char * field);
-Tetro *malipulateField(Tetro *tetro,char * field,char look, int wasGounded);
+Tetro *manipulateField(Tetro *tetro,char * field,char look, int wasGounded);
 void deleteTetroFromField(Tetro *tetro,char * field);
 
 void moveTetro(Tetro * player, Vector2D * direction, char * field);
@@ -141,7 +141,7 @@ int gameLoop(char * field){
 	pthread_join(playerThread, NULL );
     pthread_join(fallThread, NULL );
     pthread_join(printThread, NULL );
-    addNode(deleteField);
+    addNode(&deleteField);
     gameover();
     
     return EXIT_SUCCESS;
@@ -185,7 +185,7 @@ static void *systemTurn(void * vargp){
 	
 	while(!isGameOver){
 		usleep(getSpeed());
-		addNode(down);
+		addNode(&down);
     }
 	
 	return NULL;
@@ -236,18 +236,18 @@ void handleInput(int input,char * field){
 	input = toupper(input);
     
     if(input == LEFT_KEY){
-		addNode(left);
+		addNode(&left);
 	}else if(input == RIGHT_KEY){
-		addNode(right);
+		addNode(&right);
 	}else if(input == DOWN_KEY){
-		addNode(down);
+		addNode(&down);
 		fall();
 	}else if(input == ROTATE_KEY){
-		addNode(rotate);
+		addNode(&rotate);
 	}else if(input == QUIT_KEY){
 		isGameOver = 1;
 	}else if(input == HOLD_KEY){
-		addNode(hold);
+		addNode(&hold);
 	}
 	
 }
@@ -258,7 +258,7 @@ void hold(char *field){
 	
 	if(!isHolded){
 		
-		malipulateField(player,field,getEmptyIdentifier(),0);
+		manipulateField(player,field,getEmptyIdentifier(),0);
 		if(holded == NULL){
 			holded = player;
 			player = spawn(field);
@@ -428,14 +428,14 @@ Tetro *spawn(char * field){
 }
 
 void deleteTetroFromField(Tetro *tetro,char * field){
-    malipulateField(tetro, field , getEmptyIdentifier(),0);
+    manipulateField(tetro, field , getEmptyIdentifier(),0);
 }
 
 Tetro *spawnTetro(Tetro *tetro,char * field,int wasGrounded){
-    return malipulateField(tetro,field,getBlockIdentifier(),wasGrounded);
+    return manipulateField(tetro,field,getBlockIdentifier(),wasGrounded);
 }
 
-Tetro *malipulateField(Tetro *tetro,char * field,char look, int wasGrounded){
+Tetro *manipulateField(Tetro *tetro,char * field,char look, int wasGrounded){
     int i,x,y;
     Block *block;
     char * fieldStart = field;
@@ -447,9 +447,9 @@ Tetro *malipulateField(Tetro *tetro,char * field,char look, int wasGrounded){
         x += tetro->pos->x;
         y += tetro->pos->y;
 
+		
         field+= y*getMaxX()+x;
-        
-        if(wasGrounded && *field == getBlockIdentifier()){
+        if(wasGrounded && *field >= getBlockIdentifier()){
 			isGameOver = 1;
 			return tetro;
 		}

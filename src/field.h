@@ -14,8 +14,8 @@
 	char getBlockLook();
 	char getEmptyLook();
 
-	int getEmptyIdentifier();
-	int getBlockIdentifier();
+	char getEmptyIdentifier();
+	char getBlockIdentifier();
 
 	int getMaxY();
 	int getMaxX();
