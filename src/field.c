@@ -1,5 +1,6 @@
 #include "field.h"
 #include "score.h"
+#include "tetro.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,6 +22,7 @@ char viewNext();
 int colorNameToNumber(char * colorname);
 void printCell(char identifier);
 void setCellColor(char identifier);
+int checkLine(char * line);
 
 char controlDown = ' ';
 char controlLeft = ' ';
@@ -273,14 +275,8 @@ extern void checkForLineClear(char * field){
     startField = field;
 
     for(i = 0;i<MAX_FIELD_Y;i++){
-		isFull = 1;
-        for (j = 0;j<MAX_FIELD_X;j++){
-			
-            if(*field >= NORMAL_BLOCK){
-                isFull = 0;
-            }
-            field++;
-        }
+		isFull = checkLine(field);
+        field += MAX_FIELD_X;
 
         if(isFull){
             clearLine(field,i);
@@ -291,4 +287,17 @@ extern void checkForLineClear(char * field){
     lineClears(count);
 
     field = startField;
+}
+
+int checkLine(char * line){
+    int i;
+
+    for (i = 0;i<MAX_FIELD_X;i++){
+			
+        if(*line < NORMAL_BLOCK){
+            return 0;
+        }
+        line++;
+    }
+    return 1;
 }

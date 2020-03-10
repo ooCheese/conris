@@ -6,11 +6,12 @@
 
 int spawnPos = 0;
 
-extern Tetro *createTetro(char name,Vector2D * blockPos[MAX_BLOCKS]){
+extern Tetro *createTetro(int id,char name,Vector2D * blockPos[MAX_BLOCKS]){
     int i;
     Tetro * tetro = malloc(sizeof(Tetro));
     
 	tetro ->name = name;
+    tetro -> id = id;
     tetro ->pos = createVector2D(spawnPos,0);
     for(i = 0;i<MAX_BLOCKS;i++){
         tetro->block[i] = malloc(sizeof(Block));
@@ -32,7 +33,7 @@ extern Tetro *createT(){
     blocks[1] = createVector2D(-1,0);
     blocks[2] = createVector2D(0,1);
     blocks[3] = createVector2D(1,0);
-    return createTetro('T',blocks);
+    return createTetro(T,'T',blocks);
 }
 
 extern Tetro *createL(){
@@ -42,7 +43,7 @@ extern Tetro *createL(){
     blocks[1] = createVector2D(0,1);
     blocks[2] = createVector2D(0,2);
     blocks[3] = createVector2D(1,2);
-    return createTetro('L',blocks);
+    return createTetro(L,'L',blocks);
 }
 
 extern Tetro *createJ(){
@@ -52,7 +53,7 @@ extern Tetro *createJ(){
     blocks[1] = createVector2D(0,1);
     blocks[2] = createVector2D(0,2);
     blocks[3] = createVector2D(-1,2);
-    return createTetro('J',blocks);
+    return createTetro(J,'J',blocks);
 }
 
 extern Tetro *createZ(){
@@ -62,7 +63,7 @@ extern Tetro *createZ(){
     blocks[1] = createVector2D(1,0);
     blocks[2] = createVector2D(0,1);
     blocks[3] = createVector2D(-1,1);
-    return createTetro('Z',blocks);
+    return createTetro(Z,'Z',blocks);
 }
 
 extern Tetro *createS(){
@@ -72,7 +73,7 @@ extern Tetro *createS(){
     blocks[1] = createVector2D(-1,0);
     blocks[2] = createVector2D(0,1);
     blocks[3] = createVector2D(1,1);
-    return createTetro('S',blocks);
+    return createTetro(S,'S',blocks);
 }
 
 extern void deleteTetro(Tetro * t){
@@ -94,5 +95,5 @@ extern Tetro *createI(){
     blocks[1] = createVector2D(0,1);
     blocks[2] = createVector2D(0,2);
     blocks[3] = createVector2D(0,3);
-    return createTetro('I',blocks);
+    return createTetro(I,'I',blocks);
 }

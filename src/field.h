@@ -1,14 +1,8 @@
 
 #ifndef FIELD_H
     #define FIELD_H
-
-	#define I 0
-	#define L 1
-	#define J 2
-	#define T 3
-	#define S 4
-	#define Z 5
 	
+		
 	void setBlockLook(char n);
 	void setEmptyLook(char n);
 	char getBlockLook();

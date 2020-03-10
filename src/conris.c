@@ -432,7 +432,7 @@ void deleteTetroFromField(Tetro *tetro,char * field){
 }
 
 Tetro *spawnTetro(Tetro *tetro,char * field,int wasGrounded){
-    return manipulateField(tetro,field,getBlockIdentifier(),wasGrounded);
+    return manipulateField(tetro,field,tetro->id,wasGrounded);
 }
 
 Tetro *manipulateField(Tetro *tetro,char * field,char look, int wasGrounded){
