@@ -15,14 +15,14 @@
 #define KWHT  "\x1B[37m"
 
 const char * CONSOLE_COLORS [] = {KNRM,KRED,KGRN,KYEL,KBLU,KMAG,KCYN,KWHT};
-char * fieldp;
+int * fieldp;
 int *nextP;
 
 char viewNext();
 int colorNameToNumber(char * colorname);
-void printCell(char identifier);
-void setCellColor(char identifier);
-int checkLine(char * line);
+void printCell(int identifier);
+void setCellColor(int identifier);
+int checkLine(int * line);
 
 char controlDown = ' ';
 char controlLeft = ' ';
@@ -64,11 +64,11 @@ extern void setBlockLook(char n){
 	BLOCK_LOOK = n;
 }
 
-extern char getEmptyIdentifier(){
+extern int getEmptyIdentifier(){
     return EMPTY;
 }
 
-extern char getBlockIdentifier(){
+extern int getBlockIdentifier(){
     return NORMAL_BLOCK;
 }
 
@@ -105,7 +105,7 @@ extern void setControls(char cd,char cl, char cr,char cro,char cq, char ch){
 	controlHold = ch;
 }
 
-extern void deleteField(char * field){
+extern void deleteField(int * field){
 	free(field);
 }
 
@@ -172,7 +172,7 @@ extern void printPreView(int count){
 		
 }
 
-extern void printField(char *field){
+extern void printField(int *field){
     int i,j;
 
     for(i = 0; i <MAX_FIELD_Y;i++){
@@ -196,7 +196,7 @@ extern void printField(char *field){
     printf("\n");
 }
 
-void printCell(char identifier){
+void printCell(int identifier){
     
     if(identifier > EMPTY){
         setCellColor(identifier);
@@ -209,7 +209,7 @@ void printCell(char identifier){
     }
 }
 
-void setCellColor(char identifier){
+void setCellColor(int identifier){
     const char * color = CONSOLE_COLORS[identifier];
     printf("%s",color);
 }
@@ -227,11 +227,11 @@ char viewNext(){
 	}
 }
 
-extern char *createField (){
+extern int *createField (){
     int i,j;
-    char * p, * tmp;
+    int * p, * tmp;
     
-    p = malloc(sizeof(char)*MAX_FIELD_X*MAX_FIELD_Y);
+    p = malloc(sizeof(int )*MAX_FIELD_X*MAX_FIELD_Y);
     
     tmp = p;
 
@@ -246,9 +246,9 @@ extern char *createField (){
     return tmp;
 }
 
-extern void clearLine(char * field, int line){
+extern void clearLine(int * field, int line){
     int i,j;
-    char * prevCell;
+    int * prevCell;
     prevCell = field;
     prevCell -= MAX_FIELD_X;
 
@@ -268,9 +268,9 @@ extern void clearLine(char * field, int line){
 
 }
 
-extern void checkForLineClear(char * field){
-    int i,j,isFull,count = 0;
-    char * startField;
+extern void checkForLineClear(int * field){
+    int i,isFull,count = 0;
+    int * startField;
 
     startField = field;
 
@@ -289,7 +289,7 @@ extern void checkForLineClear(char * field){
     field = startField;
 }
 
-int checkLine(char * line){
+int checkLine(int * line){
     int i;
 
     for (i = 0;i<MAX_FIELD_X;i++){

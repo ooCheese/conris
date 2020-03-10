@@ -4,18 +4,18 @@
 #include <pthread.h>
 
 
-char * field;
+int * field;
 Node * head = NULL;
 int isAlive = 0;
 pthread_t thread;
 
 static void * startQueue(void * vargp);
 
-extern void setField(char * f){
+extern void setField(int * f){
 	field = f;
 }
 
-extern void addNode(void (*run)(char *)){
+extern void addNode(void (*run)(int *)){
 	Node * new = malloc(sizeof(Node));
 	
 	new->next = NULL;

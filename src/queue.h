@@ -2,9 +2,9 @@
 
 typedef struct node{
 	struct node * next;
-	void (*run)(char *);
+	void (*run)(int *);
 }Node;
 
 
-void setField(char * f);
-void addNode(void (*run)(char *));
+void setField(int * f);
+void addNode(void (*run)(int *));

@@ -27,31 +27,31 @@
 #define WRONG_INPUT -3
 
 
-Tetro *spawnTetro(Tetro *tetro,char *field,int wasGrounded);
-Tetro *spawn(char * field);
-Tetro *manipulateField(Tetro *tetro,char * field,char look, int wasGounded);
-void deleteTetroFromField(Tetro *tetro,char * field);
+Tetro *spawnTetro(Tetro *tetro,int *field,int wasGrounded);
+Tetro *spawn(int * field);
+Tetro *manipulateField(Tetro *tetro,int * field,int tetroId, int wasGounded);
+void deleteTetroFromField(Tetro *tetro,int * field);
 
-void moveTetro(Tetro * player, Vector2D * direction, char * field);
-int checkMovment(Tetro * player, Vector2D * direction, char * field);
+void moveTetro(Tetro * player, Vector2D * direction, int * field);
+int checkMovment(Tetro * player, Vector2D * direction, int * field);
 int checkCell(Tetro * tetro ,int x, int y);
 
-int checkBlock(Tetro * player,char * field, int x, int y,int yDirection);
-int checkRotate(Tetro * player,char * field);
-int gameLoop(char * field);
+int checkBlock(Tetro * player,int * field, int x, int y,int yDirection);
+int checkRotate(Tetro * player,int * field);
+int gameLoop(int * field);
 
-void playerControl(Tetro * player,char * field);
-void handleInput(int input,char * field);
+void playerControl(Tetro * player,int * field);
+void handleInput(int input,int * field);
 
-void rotatePlayer(Tetro * player,char * field);
-void checkResult(int result, char * field);
-void grounded(char * field);
+void rotatePlayer(Tetro * player,int * field);
+void checkResult(int result, int * field);
+void grounded(int * field);
 
-void left(char * field);
-void right(char * field);
-void down(char * field);
-void rotate(char * field);
-void hold(char *field);
+void left(int * field);
+void right(int * field);
+void down(int * field);
+void rotate(int * field);
+void hold(int *field);
 void gameover();
 
 void loadConfig();
@@ -68,7 +68,7 @@ static int PRINT_SLEEP = 100000;
 
 static Tetro * player;
 static int isGameOver = 0;
-static char * field;
+static int * field;
 int next = -1;
 int countdownOn = 1;
 int isHolded = 0;
@@ -117,7 +117,7 @@ void loadConfig(){
 	
 }
 
-int gameLoop(char * field){
+int gameLoop(int * field){
 	int rc;
 
     player = spawn(field);
@@ -201,7 +201,7 @@ static void *printLoop(void * vargp){
 	return NULL;
 }
 
-void checkResult(int result, char * field){ 
+void checkResult(int result, int * field){ 
 	if(result == GROUNDED){
 		grounded(field);
     }else if(result == GAME_OVER){
@@ -209,13 +209,13 @@ void checkResult(int result, char * field){
 	}
 }
 
-void grounded(char * field){
+void grounded(int * field){
 	deleteTetro(player);
     checkForLineClear(field);
     player = spawn(field);
 }
 
-void playerControl(Tetro * player,char * field){
+void playerControl(Tetro * player,int * field){
     int input;
 
     #ifdef __GNUC__
@@ -231,7 +231,7 @@ void playerControl(Tetro * player,char * field){
 
 }
 
-void handleInput(int input,char * field){
+void handleInput(int input,int  * field){
 	
 	input = toupper(input);
     
@@ -252,7 +252,7 @@ void handleInput(int input,char * field){
 	
 }
 
-void hold(char *field){
+void hold(int  *field){
 	Tetro * tmp;
 	
 	
@@ -274,23 +274,23 @@ void hold(char *field){
 	
 }
 
-void down (char *field){
+void down (int *field){
 	moveTetro(player,createVector2D(0,1),field);
 }
 
-void rotate(char *field){
+void rotate(int *field){
 	rotatePlayer(player,field);
 }
 
-void right(char * field){
+void right(int * field){
 	moveTetro(player,createVector2D(1,0),field);
 }
 
-void left(char * field){
+void left(int * field){
 	moveTetro(player,createVector2D(-1,0),field);
 }
 
-void rotatePlayer(Tetro * player,char * field){
+void rotatePlayer(Tetro * player,int * field){
 	int i,x,y,result;
 	
 	result = checkRotate(player,field);
@@ -309,7 +309,7 @@ void rotatePlayer(Tetro * player,char * field){
 	checkResult(result,field);
 }
 
-int checkRotate(Tetro * player,char * field){
+int checkRotate(Tetro * player,int * field){
 	int i,x,y,result;
 	for(i = 0; i<MAX_BLOCKS;i++){
         x = player->block[i]->pos->y;
@@ -326,7 +326,7 @@ int checkRotate(Tetro * player,char * field){
 	return FREE;
 }
 
-void moveTetro(Tetro * player, Vector2D * direction, char * field){
+void moveTetro(Tetro * player, Vector2D * direction, int  * field){
     int result;
 	
     result = checkMovment(player,direction,field);
@@ -340,7 +340,7 @@ void moveTetro(Tetro * player, Vector2D * direction, char * field){
     checkResult(result,field);
 }
 
-int checkMovment(Tetro * player, Vector2D * direction, char * field){
+int checkMovment(Tetro * player, Vector2D * direction, int * field){
     int i, x,y, result; 
 	
     for(i = 0; i<MAX_BLOCKS;i++){
@@ -360,9 +360,9 @@ int checkMovment(Tetro * player, Vector2D * direction, char * field){
     return FREE;
 }
 
-int checkBlock(Tetro * player,char * field, int x, int y,int yDirection){
+int checkBlock(Tetro * player,int * field, int x, int y,int yDirection){
 	
-	char * startCell;
+	int * startCell;
     startCell = field;
 	
 	if(x<0 || x>=getMaxX()){
@@ -402,7 +402,7 @@ int checkCell(Tetro * player ,int x, int y){
     return 1;
 }
 
-Tetro *spawn(char * field){
+Tetro *spawn(int * field){
 	int num;
 	
 	if(next == -1){ /*next is empty*/
@@ -427,18 +427,18 @@ Tetro *spawn(char * field){
     
 }
 
-void deleteTetroFromField(Tetro *tetro,char * field){
+void deleteTetroFromField(Tetro *tetro,int * field){
     manipulateField(tetro, field , getEmptyIdentifier(),0);
 }
 
-Tetro *spawnTetro(Tetro *tetro,char * field,int wasGrounded){
+Tetro *spawnTetro(Tetro *tetro,int * field,int wasGrounded){
     return manipulateField(tetro,field,tetro->id,wasGrounded);
 }
 
-Tetro *manipulateField(Tetro *tetro,char * field,char look, int wasGrounded){
+Tetro *manipulateField(Tetro *tetro,int * field,int tetroId, int wasGrounded){
     int i,x,y;
     Block *block;
-    char * fieldStart = field;
+	int * fieldStart = field;
 
     for(i = 0;i<MAX_BLOCKS;i++){
         block = tetro->block[i];
@@ -454,7 +454,7 @@ Tetro *manipulateField(Tetro *tetro,char * field,char look, int wasGrounded){
 			return tetro;
 		}
         
-        *field = look;
+        *field = tetroId;
         field = fieldStart;
     }
     return tetro;
