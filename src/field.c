@@ -19,7 +19,6 @@ int * fieldp;
 int *nextP;
 
 char viewNext();
-int colorNameToNumber(char * colorname);
 void printCell(int identifier);
 void setCellColor(int identifier);
 int checkLine(int * line);
@@ -109,7 +108,7 @@ extern void deleteField(int * field){
 	free(field);
 }
 
-int colorNameToNumber(char * colorname){
+extern int colorNameToNumber(char * colorname){
     if(strstr("NORMAL",colorname)){
         return 0;
     }else if(strstr("RED",colorname)){

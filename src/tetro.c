@@ -4,6 +4,18 @@
 #include <stdlib.h>
 
 
+int TETRO_COLORS [] = {I,L,J,T,S,Z};
+
+extern void setTetroColors(int Ic,int Lc,int Jc,int Tc,int Sc, int Zc){
+    TETRO_COLORS[I] = Ic;
+    TETRO_COLORS[L] = Lc;
+    TETRO_COLORS[J] = Jc;
+    TETRO_COLORS[T] = Tc;
+    TETRO_COLORS[S] = Sc;
+    TETRO_COLORS[Z] = Zc;
+}
+
+
 int spawnPos = 0;
 
 extern Tetro *createTetro(int id,char name,Vector2D * blockPos[MAX_BLOCKS]){
@@ -33,7 +45,7 @@ extern Tetro *createT(){
     blocks[1] = createVector2D(-1,0);
     blocks[2] = createVector2D(0,1);
     blocks[3] = createVector2D(1,0);
-    return createTetro(T,'T',blocks);
+    return createTetro(TETRO_COLORS[T],'T',blocks);
 }
 
 extern Tetro *createL(){
@@ -43,7 +55,7 @@ extern Tetro *createL(){
     blocks[1] = createVector2D(0,1);
     blocks[2] = createVector2D(0,2);
     blocks[3] = createVector2D(1,2);
-    return createTetro(L,'L',blocks);
+    return createTetro(TETRO_COLORS[L],'L',blocks);
 }
 
 extern Tetro *createJ(){
@@ -53,7 +65,7 @@ extern Tetro *createJ(){
     blocks[1] = createVector2D(0,1);
     blocks[2] = createVector2D(0,2);
     blocks[3] = createVector2D(-1,2);
-    return createTetro(J,'J',blocks);
+    return createTetro(TETRO_COLORS[J],'J',blocks);
 }
 
 extern Tetro *createZ(){
@@ -63,7 +75,7 @@ extern Tetro *createZ(){
     blocks[1] = createVector2D(1,0);
     blocks[2] = createVector2D(0,1);
     blocks[3] = createVector2D(-1,1);
-    return createTetro(Z,'Z',blocks);
+    return createTetro(TETRO_COLORS[Z],'Z',blocks);
 }
 
 extern Tetro *createS(){
@@ -73,7 +85,7 @@ extern Tetro *createS(){
     blocks[1] = createVector2D(-1,0);
     blocks[2] = createVector2D(0,1);
     blocks[3] = createVector2D(1,1);
-    return createTetro(S,'S',blocks);
+    return createTetro(TETRO_COLORS[S],'S',blocks);
 }
 
 extern void deleteTetro(Tetro * t){
@@ -95,5 +107,5 @@ extern Tetro *createI(){
     blocks[1] = createVector2D(0,1);
     blocks[2] = createVector2D(0,2);
     blocks[3] = createVector2D(0,3);
-    return createTetro(I,'I',blocks);
+    return createTetro(TETRO_COLORS[I],'I',blocks);
 }

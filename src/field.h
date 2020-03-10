@@ -26,4 +26,6 @@
 	void checkForLineClear(int * field);
 	void setFieldColor(char * colorname);
 	
+	int colorNameToNumber(char * colorname);
+	
 #endif

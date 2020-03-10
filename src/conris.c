@@ -69,6 +69,7 @@ static int PRINT_SLEEP = 100000;
 static Tetro * player;
 static int isGameOver = 0;
 static int * field;
+
 int next = -1;
 int countdownOn = 1;
 int isHolded = 0;
@@ -111,6 +112,15 @@ void loadConfig(){
 		setEmptyLook(getCharProp("look.empty",' '));
 		setBlockLook(getCharProp("look.block",'#'));
 		setFieldColor(getStringProp("color.field","NORMAL"));
+
+		setTetroColors(
+			colorNameToNumber(getStringProp("color.I","NORMAL")),
+			colorNameToNumber(getStringProp("color.L","NORMAL")),
+			colorNameToNumber(getStringProp("color.J","NORMAL")),
+			colorNameToNumber(getStringProp("color.T","NORMAL")),
+			colorNameToNumber(getStringProp("color.S","NORMAL")),
+			colorNameToNumber(getStringProp("color.Z","NORMAL"))
+		);
 		
 		deleteAllConfigProps();
 	}
