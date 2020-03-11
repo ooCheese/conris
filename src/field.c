@@ -1,6 +1,7 @@
 #include "field.h"
 #include "score.h"
 #include "tetro.h"
+#include "ghostTetro.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,6 +33,7 @@ char controlHold = ' ';
 
 char BLOCK_LOOK = '#';
 char EMPTY_LOOK = ' ';
+char GHOST_LOOK = '*';
 
 const int EMPTY =  -1;
 const int NORMAL_BLOCK = 0;
@@ -40,6 +42,8 @@ int fullColorMode = 1;
 int fieldColorNumber = 0;
 
 char nameOfHolded = ' ';
+
+BlockList * ghostBlock  = NULL;
 
 
 extern void setNameOfHolded(char name){
@@ -203,6 +207,8 @@ void printCell(int identifier){
 
         /*reset Color*/
         printf("%s",CONSOLE_COLORS[fieldColorNumber]);
+    }else if(identifier == GHOST_ID){
+        printf("%c ", GHOST_ID);
     }else{
         printf("%c ", EMPTY_LOOK);
     }
@@ -299,4 +305,33 @@ int checkLine(int * line){
         line++;
     }
     return 1;
+}
+
+extern void clearGhostBlocks(){
+    BlockList * tmp;
+
+    while(ghostBlock != NULL){
+        tmp = ghostBlock-> next;
+        changeCell(ghostBlock->x,ghostBlock->y,EMPTY);
+        free(ghostBlock);
+        ghostBlock = tmp;
+    }
+}
+
+extern void addGhostBlock(int x, int y){
+
+    if(y < MAX_FIELD_Y && y >= 0){
+        changeCell(x,y,GHOST_ID);
+        ghostBlock = createGhostBlock(x,y,ghostBlock);
+    } 
+}
+    
+
+extern void changeCell(int x, int y, int id){
+    int * pos = jumoToFieldPositon(x,y);
+    *pos = id;
+}
+
+extern int * jumoToFieldPositon(int x , int y){
+    return fieldp + (y*MAX_FIELD_X)+x;
 }

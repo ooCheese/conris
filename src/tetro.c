@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 int TETRO_COLORS [] = {I,L,J,T,S,Z};
 
 extern void setTetroColors(int Ic,int Lc,int Jc,int Tc,int Sc, int Zc){
@@ -14,7 +13,6 @@ extern void setTetroColors(int Ic,int Lc,int Jc,int Tc,int Sc, int Zc){
     TETRO_COLORS[S] = Sc;
     TETRO_COLORS[Z] = Zc;
 }
-
 
 int spawnPos = 0;
 
@@ -88,6 +86,16 @@ extern Tetro *createS(){
     return createTetro(TETRO_COLORS[S],'S',blocks);
 }
 
+extern Tetro *createI(){
+    Vector2D *blocks [MAX_BLOCKS];
+
+    blocks[0] = createVector2D(0,0);
+    blocks[1] = createVector2D(0,1);
+    blocks[2] = createVector2D(0,2);
+    blocks[3] = createVector2D(0,3);
+    return createTetro(TETRO_COLORS[I],'I',blocks);
+}
+
 extern void deleteTetro(Tetro * t){
 	int i;
 	
@@ -97,15 +105,4 @@ extern void deleteTetro(Tetro * t){
 		free(t->block[i]);
 	}
 	free(t);
-}
-	
-
-extern Tetro *createI(){
-    Vector2D *blocks [MAX_BLOCKS];
-
-    blocks[0] = createVector2D(0,0);
-    blocks[1] = createVector2D(0,1);
-    blocks[2] = createVector2D(0,2);
-    blocks[3] = createVector2D(0,3);
-    return createTetro(TETRO_COLORS[I],'I',blocks);
 }

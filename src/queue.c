@@ -1,6 +1,7 @@
 #include "queue.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <assert.h>
 #include <pthread.h>
 
 
@@ -16,6 +17,7 @@ extern void setField(int * f){
 }
 
 extern void addNode(void (*run)(int *)){
+	int rc;
 	Node * new = malloc(sizeof(Node));
 	
 	new->next = NULL;
@@ -23,8 +25,8 @@ extern void addNode(void (*run)(int *)){
 	
 	if(head == NULL){
 		head = new;
-		pthread_create(&thread, NULL, &startQueue, NULL);
-		
+		rc = pthread_create(&thread, NULL, &startQueue, NULL);
+		assert(!rc);
 	}else{
 		head->next = new;
 	}

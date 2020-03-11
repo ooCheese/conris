@@ -54,6 +54,8 @@ void rotate(int * field);
 void hold(int *field);
 void gameover();
 
+void createGhoast();
+
 void loadConfig();
 
 static void *playerTurn(void * vargp);
@@ -73,6 +75,8 @@ static int * field;
 int next = -1;
 int countdownOn = 1;
 int isHolded = 0;
+int ENABLE_GHOST_BLOCKS = 0;
+
 
 int COUNT_DOWN = 3;
 int COUNT_DOWN_SLEEP = 1;
@@ -105,6 +109,7 @@ void loadConfig(){
 		QUIT_KEY =  getCharProp("key.quit",'.');
 		HOLD_KEY = getCharProp("key.hold",'H');
 		PRINT_SLEEP = 1e6/getIntProp("speed.print",15);
+		ENABLE_GHOST_BLOCKS = getBoolProp("gostblocks",0);
 		setFieldSize(getIntProp("field.x",10),getIntProp("field.y",20));
 		countdownOn = getBoolProp("start.countdown",1);
 		COUNT_DOWN = getIntProp("start.countdown.counts",3);
@@ -348,6 +353,11 @@ void moveTetro(Tetro * player, Vector2D * direction, int  * field){
     }
     
     checkResult(result,field);
+
+	if(ENABLE_GHOST_BLOCKS){
+		createGhoast();
+	}
+	
 }
 
 int checkMovment(Tetro * player, Vector2D * direction, int * field){
@@ -468,4 +478,29 @@ Tetro *manipulateField(Tetro *tetro,int * field,int tetroId, int wasGrounded){
         field = fieldStart;
     }
     return tetro;
+}
+
+
+void createGhoast(){
+	int i,y,result;
+	Vector2D * pos;
+
+	clearGhostBlocks();
+
+	for(i = 0;i<MAX_BLOCKS;i++){
+		pos = player->block[i]->pos;
+		y = pos-> y +1;
+
+		while(checkCell(player,pos->x,y)== FREE){
+			y++;
+		}
+
+		y = y-1;
+
+		if(y != pos->y){
+			addGhostBlock(pos->x,y);
+		}
+		
+		
+	}
 }

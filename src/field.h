@@ -2,6 +2,7 @@
 #ifndef FIELD_H
     #define FIELD_H
 	
+	#define GHOST_ID -2
 		
 	void setBlockLook(char n);
 	void setEmptyLook(char n);
@@ -27,5 +28,10 @@
 	void setFieldColor(char * colorname);
 	
 	int colorNameToNumber(char * colorname);
+
+	void addGhostBlock(int x, int y);
+	extern void clearGhostBlocks();
+	void changeCell(int x, int y, int id);
+	int * jumoToFieldPositon(int x , int y);
 	
 #endif

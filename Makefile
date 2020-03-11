@@ -1,7 +1,7 @@
 .PHONY: run clean
 
 objects= src/conris.c src/vector2d.c src/tetro.c src/score.c \
-		 src/field.c src/queue.c src/readSingelChar.c src/configReader.c
+		 src/field.c src/queue.c src/readSingelChar.c src/configReader.c src/ghostTetro.c
 		 
 output= conris
 
