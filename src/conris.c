@@ -44,6 +44,7 @@ void playerControl(Tetro * player,int * field);
 void handleInput(int input,int * field);
 
 void rotatePlayer(Tetro * player,int * field);
+void rotatePlayerOnFreeCells(Tetro * player,int * field);
 void checkResult(int result, int * field);
 void grounded(int * field);
 
@@ -60,6 +61,12 @@ int down_with_result(int * field);
 void createGhoast();
 
 void loadConfig();
+void loadPrintConfig();
+void loadGhostBlockConfig();
+void loadFieldConfig();
+void loadKeyConfig();
+void loadCountDownConfig();
+void loadColorConfig();
 
 static void *playerTurn(void * vargp);
 static void *systemTurn(void * vargp);
@@ -105,36 +112,60 @@ int main(void){
 void loadConfig(){
 	if(readConfig("config.properties")){
 		
-		DOWN_KEY =  getCharProp("key.down",'S');
-		LEFT_KEY =  getCharProp("key.left",'A');
-		RIGHT_KEY =  getCharProp("key.right",'D');
-		ROTATE_KEY = getCharProp("key.rotate",'R');
-		QUIT_KEY =  getCharProp("key.quit",'.');
-		HOLD_KEY = getCharProp("key.hold",'H');
-		DOWN_TO_GROUND_KEY = getCharProp("key.down2ground",' ');
-		PRINT_SLEEP = 1e6/getIntProp("speed.print",15);
-		ENABLE_GHOST_BLOCKS = getBoolProp("gostblocks",0);
-		setFieldSize(getIntProp("field.x",10),getIntProp("field.y",20));
-		countdownOn = getBoolProp("start.countdown",1);
-		COUNT_DOWN = getIntProp("start.countdown.counts",3);
-		COUNT_DOWN_SLEEP = getIntProp("start.countdown.seconds",1);
-		setEmptyLook(getCharProp("look.empty",' '));
-		setBlockLook(getCharProp("look.block",'#'));
-		setFieldColor(getStringProp("color.field","NORMAL"));
+		loadFieldConfig();
+		loadKeyConfig();
+		loadCountDownConfig();
+		loadPrintConfig();
+		loadColorConfig();
+		loadGhostBlockConfig();
 
-		setTetroColors(
-			colorNameToNumber(getStringProp("color.I","NORMAL")),
-			colorNameToNumber(getStringProp("color.L","NORMAL")),
-			colorNameToNumber(getStringProp("color.J","NORMAL")),
-			colorNameToNumber(getStringProp("color.T","NORMAL")),
-			colorNameToNumber(getStringProp("color.S","NORMAL")),
-			colorNameToNumber(getStringProp("color.Z","NORMAL")),
-			colorNameToNumber(getStringProp("color.O","NORMAL"))
-		);
-		
 		deleteAllConfigProps();
 	}
-	
+}
+
+void loadPrintConfig(){
+	PRINT_SLEEP = 1e6/getIntProp("speed.print",15);
+}
+
+void loadGhostBlockConfig(){
+	ENABLE_GHOST_BLOCKS = getBoolProp("gostblocks",0);
+}
+
+void loadFieldConfig(){
+	setFieldSize(getIntProp("field.x",10),getIntProp("field.y",20));
+
+	setEmptyLook(getCharProp("look.empty",' '));
+	setBlockLook(getCharProp("look.block",'#'));
+}
+
+void loadKeyConfig(){
+	DOWN_KEY =  getCharProp("key.down",'S');
+	LEFT_KEY =  getCharProp("key.left",'A');
+	RIGHT_KEY =  getCharProp("key.right",'D');
+	ROTATE_KEY = getCharProp("key.rotate",'R');
+	QUIT_KEY =  getCharProp("key.quit",'.');
+	HOLD_KEY = getCharProp("key.hold",'H');
+	DOWN_TO_GROUND_KEY = getCharProp("key.down2ground",' ');
+}
+
+void loadCountDownConfig(){
+	countdownOn = getBoolProp("start.countdown",1);
+	COUNT_DOWN = getIntProp("start.countdown.counts",3);
+	COUNT_DOWN_SLEEP = getIntProp("start.countdown.seconds",1);
+}
+
+void loadColorConfig(){
+	setFieldColor(getStringProp("color.field","NORMAL"));
+
+	setTetroColors(
+		colorNameToNumber(getStringProp("color.I","NORMAL")),
+		colorNameToNumber(getStringProp("color.L","NORMAL")),
+		colorNameToNumber(getStringProp("color.J","NORMAL")),
+		colorNameToNumber(getStringProp("color.T","NORMAL")),
+		colorNameToNumber(getStringProp("color.S","NORMAL")),
+		colorNameToNumber(getStringProp("color.Z","NORMAL")),
+		colorNameToNumber(getStringProp("color.O","NORMAL"))
+	);
 }
 
 int gameLoop(int * field){
@@ -194,7 +225,7 @@ void countDown(){
 static void *playerTurn(void * vargp){
 	
 	printField(field);
-	 while(!isGameOver){
+	while(!isGameOver){
 		playerControl(player,field);
     }
     
@@ -308,6 +339,7 @@ void downToGround(int * field){
 	int result = FREE;
 	while(result != GROUNDED){
 		result = down_with_result(field);
+		fall();
 	}
 }
 
@@ -324,22 +356,23 @@ void left(int * field){
 }
 
 void rotatePlayer(Tetro * player,int * field){
-	int i,x,y,result;
-	
-	result = checkRotate(player,field);
+	int result = checkRotate(player,field);
+
 	if(result == FREE){
-		for(i = 0; i<MAX_BLOCKS;i++){
-			deleteTetroFromField(player,field);
-			
-			x = player->block[i]->pos->y;
-			y = player->block[i]->pos->x;
-			player->block[i]->pos->x = x*-1;
-			player->block[i]->pos->y = y;
-			
-			spawnTetro(player,field,0);  
-		}
+		rotatePlayerOnFreeCells(player,field); 
 	}
+
 	checkResult(result,field);
+}
+
+void rotatePlayerOnFreeCells(Tetro * player,int * field){
+	int i;
+
+	deleteTetroFromField(player,field);
+	for(i = 0; i<MAX_BLOCKS;i++){
+		rotateVector2DClockwise(player->block[i]->pos);
+	}
+	spawnTetro(player,field,0);  
 }
 
 int checkRotate(Tetro * player,int * field){
@@ -348,6 +381,7 @@ int checkRotate(Tetro * player,int * field){
         x = player->block[i]->pos->y;
         y = player->block[i]->pos->x;
         x*=-1;
+
         x += player->pos->x;
         y += player->pos->y;
         

@@ -13,8 +13,12 @@ extern Vector2D * createVector2D(int x, int y){
 }
 
 extern void rotateVector2DClockwise(Vector2D * vector2D){
-    vector2D->x = vector2D->y*-1;
-    vector2D->y = vector2D->x*-1;
+    int x,y;
+    x = vector2D->y;
+    y = vector2D->x;
+
+    vector2D->x = x*-1;
+    vector2D->y = y;
 
 }
 
