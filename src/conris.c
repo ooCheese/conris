@@ -128,7 +128,8 @@ void loadConfig(){
 			colorNameToNumber(getStringProp("color.J","NORMAL")),
 			colorNameToNumber(getStringProp("color.T","NORMAL")),
 			colorNameToNumber(getStringProp("color.S","NORMAL")),
-			colorNameToNumber(getStringProp("color.Z","NORMAL"))
+			colorNameToNumber(getStringProp("color.Z","NORMAL")),
+			colorNameToNumber(getStringProp("color.O","NORMAL"))
 		);
 		
 		deleteAllConfigProps();
@@ -450,7 +451,7 @@ Tetro *spawn(int * field){
 		num = next;
 	}
 	
-	next = rand()%6;
+	next = rand()%7;
 	
 	isHolded = 0;
 	
@@ -460,6 +461,7 @@ Tetro *spawn(int * field){
 		case J: return spawnTetro(createJ(),field,1);
 		case T: return spawnTetro(createT(),field,1);
 		case S: return spawnTetro(createS(),field,1);
+		case O: return spawnTetro(createO(),field,1);
 		default: return spawnTetro(createZ(),field,1);
 	}
 	

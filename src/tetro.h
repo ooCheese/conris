@@ -12,6 +12,8 @@
 #define T 3
 #define S 4
 #define Z 5
+#define O 6
+
 
 typedef struct block{
     Vector2D * pos;
@@ -25,7 +27,7 @@ typedef struct tetro{
 }Tetro;
 
 void setSpawnPos(int x);
-void setTetroColors(int Ic,int Lc,int Jc,int Tc,int Sc, int Zc);
+void setTetroColors(int Ic,int Lc,int Jc,int Tc,int Sc, int Zc,int Oc);
 
 void deleteTetro(Tetro * t);
 Tetro *createTetro(int id,char name,Vector2D * blockPos[4]);
@@ -35,6 +37,7 @@ Tetro *createJ();
 Tetro *createT();
 Tetro *createZ();
 Tetro *createS();
+extern Tetro *createO();
 
 #endif
 

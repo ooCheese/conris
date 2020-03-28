@@ -231,6 +231,7 @@ char viewNext(){
 		case T: return 'T';
 		case S: return 'S';
 		case Z: return 'Z';
+        case O: return 'O';
 		default: return ' ';
 	}
 }
