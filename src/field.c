@@ -30,6 +30,7 @@ char controlRight = ' ';
 char controlRotate = ' ';
 char controlQuit = ' ';
 char controlHold = ' ';
+char controlDownToGround = ' ';
 
 char BLOCK_LOOK = '#';
 char EMPTY_LOOK = ' ';
@@ -99,13 +100,14 @@ extern void setFieldColor(char * colorname){
     fieldColorNumber = colorNameToNumber(colorname);
 }
 
-extern void setControls(char cd,char cl, char cr,char cro,char cq, char ch){
+extern void setControls(char cd,char cl, char cr,char cro,char cq, char ch,char cd2g){
 	controlDown = cd;
 	controlLeft = cl;
 	controlRight = cr;
 	controlRotate = cro;
 	controlQuit = cq;
 	controlHold = ch;
+    controlDownToGround = cd2g;
 }
 
 extern void deleteField(int * field){
@@ -145,9 +147,10 @@ void printExtraInfos(int i){
 		case 8: printf("\t |%c| LEFT",controlLeft);break;
 		case 9: printf("\t |%c| RIGHT",controlRight);break;
 		case 10: printf("\t |%c| DOWN",controlDown);break;
-		case 11: printf("\t |%c| ROTATE",controlRotate);break;
-		case 12: printf("\t |%c| HOLD",controlHold);break;
-		case 14: printf("\t |%c| QUIT",controlQuit);break;
+        case 11: printf("\t |%c| DOWN TO GROUND",controlDownToGround);break;
+		case 12: printf("\t |%c| ROTATE",controlRotate);break;
+		case 13: printf("\t |%c| HOLD",controlHold);break;
+		case 15: printf("\t |%c| QUIT",controlQuit);break;
 	}
 }
 

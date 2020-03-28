@@ -19,7 +19,7 @@
 	int *createField ();
 	void setNext(int *n);
 	void printPreView(int count);
-	void setControls(char cd,char cl, char cr,char cro,char cq, char ch);
+	void setControls(char cd,char cl, char cr,char cro,char cq, char ch,char cd2g);
 	void deleteField(int * field);
 	void setNameOfHolded(char name);
 

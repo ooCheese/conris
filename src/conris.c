@@ -32,7 +32,7 @@ Tetro *spawn(int * field);
 Tetro *manipulateField(Tetro *tetro,int * field,int tetroId, int wasGounded);
 void deleteTetroFromField(Tetro *tetro,int * field);
 
-void moveTetro(Tetro * player, Vector2D * direction, int * field);
+int moveTetro(Tetro * player, Vector2D * direction, int * field);
 int checkMovment(Tetro * player, Vector2D * direction, int * field);
 int checkCell(Tetro * tetro ,int x, int y);
 
@@ -50,9 +50,12 @@ void grounded(int * field);
 void left(int * field);
 void right(int * field);
 void down(int * field);
+void downToGround(int * field);
 void rotate(int * field);
 void hold(int *field);
 void gameover();
+
+int down_with_result(int * field);
 
 void createGhoast();
 
@@ -65,7 +68,7 @@ static void *printLoop(void * vargp);
 void printIntroduction();
 void countDown();
 
-static char DOWN_KEY = 'S',LEFT_KEY= 'A',RIGHT_KEY = 'D',ROTATE_KEY = 'W',QUIT_KEY = '.',HOLD_KEY = 'H';
+static char DOWN_KEY = 'S',LEFT_KEY= 'A',RIGHT_KEY = 'D',ROTATE_KEY = 'W',QUIT_KEY = '.',HOLD_KEY = 'H',DOWN_TO_GROUND_KEY = ' ';
 static int PRINT_SLEEP = 100000;
 
 static Tetro * player;
@@ -95,7 +98,7 @@ int main(void){
     setField(field);
     setSpawnPos(getMaxX()/2);
     setNext(&next);
-    setControls(DOWN_KEY,LEFT_KEY,RIGHT_KEY,ROTATE_KEY,QUIT_KEY,HOLD_KEY);
+    setControls(DOWN_KEY,LEFT_KEY,RIGHT_KEY,ROTATE_KEY,QUIT_KEY,HOLD_KEY,DOWN_TO_GROUND_KEY);
     return gameLoop(field);
 }
 
@@ -108,6 +111,7 @@ void loadConfig(){
 		ROTATE_KEY = getCharProp("key.rotate",'R');
 		QUIT_KEY =  getCharProp("key.quit",'.');
 		HOLD_KEY = getCharProp("key.hold",'H');
+		DOWN_TO_GROUND_KEY = getCharProp("key.down2ground",' ');
 		PRINT_SLEEP = 1e6/getIntProp("speed.print",15);
 		ENABLE_GHOST_BLOCKS = getBoolProp("gostblocks",0);
 		setFieldSize(getIntProp("field.x",10),getIntProp("field.y",20));
@@ -263,6 +267,8 @@ void handleInput(int input,int  * field){
 		isGameOver = 1;
 	}else if(input == HOLD_KEY){
 		addNode(&hold);
+	}else if(input == DOWN_TO_GROUND_KEY){
+		addNode(&downToGround);
 	}
 	
 }
@@ -290,7 +296,18 @@ void hold(int  *field){
 }
 
 void down (int *field){
-	moveTetro(player,createVector2D(0,1),field);
+	down_with_result(field);
+}
+
+int down_with_result(int * field){
+	return moveTetro(player,createVector2D(0,1),field);
+}
+
+void downToGround(int * field){
+	int result = FREE;
+	while(result != GROUNDED){
+		result = down_with_result(field);
+	}
 }
 
 void rotate(int *field){
@@ -341,7 +358,7 @@ int checkRotate(Tetro * player,int * field){
 	return FREE;
 }
 
-void moveTetro(Tetro * player, Vector2D * direction, int  * field){
+int moveTetro(Tetro * player, Vector2D * direction, int  * field){
     int result;
 	
     result = checkMovment(player,direction,field);
@@ -357,6 +374,8 @@ void moveTetro(Tetro * player, Vector2D * direction, int  * field){
 	if(ENABLE_GHOST_BLOCKS){
 		createGhoast();
 	}
+
+	return result;
 	
 }
 
