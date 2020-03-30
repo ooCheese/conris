@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+Vector2D * copyRotatedVectorToOther(Vector2D * source,Vector2D * target);
+
 extern Vector2D * createVector2D(int x, int y){
     Vector2D * vector;
     
@@ -12,21 +14,34 @@ extern Vector2D * createVector2D(int x, int y){
     return vector;
 }
 
-extern void rotateVector2DClockwise(Vector2D * vector2D){
+extern void rotateOnVector2DClockwise(Vector2D * vector2D){
+    copyRotatedVectorToOther(vector2D,vector2D);
+}
+
+extern Vector2D * rotateVector2DClockwise(Vector2D * vector2D){
+    return copyRotatedVectorToOther(vector2D,createVector2D(0,0));
+}
+
+Vector2D * copyRotatedVectorToOther(Vector2D * source,Vector2D * target){
     int x,y;
-    x = vector2D->y;
-    y = vector2D->x;
 
-    vector2D->x = x*-1;
-    vector2D->y = y;
+    x = source->y;
+    y = source->x;
+    
+    target->x = x*-1;
+    target->y = y;
 
+    return target;
 }
 
 extern void addTwoVector2D(Vector2D * vector, Vector2D * add){
 
+    addTwoVector2D_NotFreeAdded(vector,add);
+    free(add);
+}
+extern void addTwoVector2D_NotFreeAdded(Vector2D * vector, Vector2D * add){
     vector->x += add->x;
     vector->y += add->y;
-    free(add);
 }
 
 extern void subTwoVector2D(Vector2D * vector, Vector2D * sub){

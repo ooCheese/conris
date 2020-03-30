@@ -22,10 +22,8 @@
 
     void handleInput(int input,int  * field);
     void gameover();
-    void down(int * field);
     void spawnPlayer(int *field);
-    
 
-    
+    void down (int *field);
 
 #endif

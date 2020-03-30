@@ -20,12 +20,8 @@
 
 #define WAIT_IN_INTRO_SEC 1
 
-#define BLOCKED 0
-#define FREE 1
-#define GROUNDED -1
-#define GAME_OVER -2
-#define WRONG_INPUT -3
 
+int gameLoop(int * field);
 void createGhoast();
 
 void loadConfig();
@@ -171,6 +167,7 @@ void playerControl(int * field){
 	handleInput(input,field);
 
 }
+
 /*
 void createGhoast(){
 	int i,y,result;
