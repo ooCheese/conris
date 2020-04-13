@@ -22,6 +22,7 @@
 
 
 int gameLoop(int * field);
+
 void createGhoast();
 
 void loadConfig();

@@ -90,6 +90,10 @@ void hold(int  *field){
 			tmp = player;
 			player = holded;
 			holded = tmp;
+
+			player->pos->y = 0;
+			player->pos->x = getMaxX()/2;
+			spawnTetro(player,field,1);
 		}
 		
 		isHolded = 1;
