@@ -19,10 +19,16 @@ const char * CONSOLE_COLORS [] = {KNRM,KRED,KGRN,KYEL,KBLU,KMAG,KCYN,KWHT};
 int * fieldp;
 int *nextP;
 
+static int colormode = 1;
+
 char viewNext();
 void printCell(int identifier);
 void setCellColor(int identifier);
 int checkLine(int * line);
+void changeColor(const char * color);
+
+void printRightBorder();
+void printLeftBorder();
 
 char controlDown = ' ';
 char controlLeft = ' ';
@@ -39,13 +45,16 @@ char GHOST_LOOK = '*';
 const int EMPTY =  -1;
 const int NORMAL_BLOCK = 0;
 
-int fullColorMode = 1;
 int fieldColorNumber = 0;
 
 char nameOfHolded = ' ';
 
 BlockList * ghostBlock  = NULL;
 
+
+extern void setColormode(int mode){
+    colormode = mode;
+}
 
 extern void setNameOfHolded(char name){
 	nameOfHolded = name;
@@ -136,6 +145,12 @@ extern int colorNameToNumber(char * colorname){
     return 0;
 }
 
+void changeColor(const char * color){
+    if(colormode){
+        printf("%s",color);
+    }
+}
+
 void printExtraInfos(int i){
 	
 	switch(i){
@@ -154,12 +169,23 @@ void printExtraInfos(int i){
 	}
 }
 
+void printLeftBorder(){
+    changeColor(KNRM);
+    printf("|");
+    changeColor(CONSOLE_COLORS[fieldColorNumber]);
+}
+
+void printRightBorder(){
+    changeColor(KNRM);
+    printf("|");
+}
+
 extern void printPreView(int count){
 	int i,j;
 	
 
     for(i = 0; i <MAX_FIELD_Y;i++){
-        printf("%s|%s",KNRM,CONSOLE_COLORS[fieldColorNumber]);
+        printLeftBorder();
         for(j = 0; j <MAX_FIELD_X;j++){
 			if(j == MAX_FIELD_X/2 && i ==MAX_FIELD_Y/2){
 				printf("%i ",count);
@@ -168,7 +194,8 @@ extern void printPreView(int count){
 			}
             
         }	
-		printf("%s|\n",KNRM);
+		printRightBorder();
+        printf("\n");
     }
     
     for(j = 0; j <MAX_FIELD_X;j++){
@@ -182,14 +209,14 @@ extern void printField(int *field){
     int i,j;
 
     for(i = 0; i <MAX_FIELD_Y;i++){
-        printf("%s|%s",KNRM,CONSOLE_COLORS[fieldColorNumber]);
+        printLeftBorder();
         for(j = 0; j <MAX_FIELD_X;j++){
 
             printCell(*field);
             
             field++;
         }
-        printf("%s|",KNRM);
+        printRightBorder();
         
         printExtraInfos(i);
 		
@@ -206,10 +233,12 @@ void printCell(int identifier){
     
     if(identifier > EMPTY){
         setCellColor(identifier);
+
         printf("%c ",BLOCK_LOOK);
 
         /*reset Color*/
-        printf("%s",CONSOLE_COLORS[fieldColorNumber]);
+        changeColor(CONSOLE_COLORS[fieldColorNumber]);
+        
     }else if(identifier == GHOST_ID){
         printf("%c ", GHOST_ID);
     }else{
@@ -218,8 +247,7 @@ void printCell(int identifier){
 }
 
 void setCellColor(int identifier){
-    const char * color = CONSOLE_COLORS[identifier];
-    printf("%s",color);
+    changeColor(CONSOLE_COLORS[identifier]);
 }
 
 char viewNext(){

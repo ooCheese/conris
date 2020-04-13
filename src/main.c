@@ -243,6 +243,7 @@ void loadCountDownConfig(){
 }
 
 void loadColorConfig(){
+	setColormode(getBoolProp("color.mode",1));
 	setFieldColor(getStringProp("color.field","NORMAL"));
 
 	setTetroColors(

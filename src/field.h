@@ -22,6 +22,7 @@
 	void setControls(char cd,char cl, char cr,char cro,char cq, char ch,char cd2g);
 	void deleteField(int * field);
 	void setNameOfHolded(char name);
+	void setColormode(int mode);
 
 	void clearLine(int * field, int line);
 	void checkForLineClear(int * field);
