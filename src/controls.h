@@ -19,6 +19,7 @@
     int isHolded;
     int next;
     int isGameOver;
+    int ghostMode;
 
     void handleInput(int input,int  * field);
     void gameover();

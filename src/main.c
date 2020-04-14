@@ -47,8 +47,6 @@ static int PRINT_SLEEP = 100000;
 static int * field;
 
 int countdownOn = 1;
-int ENABLE_GHOST_BLOCKS = 0;
-
 
 int COUNT_DOWN = 3;
 int COUNT_DOWN_SLEEP = 1;
@@ -169,32 +167,6 @@ void playerControl(int * field){
 
 }
 
-/*
-void createGhoast(){
-	int i,y,result;
-	Vector2D * pos;
-
-	clearGhostBlocks();
-
-	for(i = 0;i<MAX_BLOCKS;i++){
-		pos = player->block[i]->pos;
-		y = pos-> y +1;
-
-		while(checkCell(player,pos->x,y)== FREE){
-			y++;
-		}
-
-		y = y-1;
-
-		if(y != pos->y){
-			addGhostBlock(pos->x,y);
-		}
-		
-		
-	}
-}
-*/
-
 void loadConfig(){
 	if(readConfig("config.properties")){
 		
@@ -209,14 +181,12 @@ void loadConfig(){
 	}
 }
 
-/*Load Configs*/
-
 void loadPrintConfig(){
 	PRINT_SLEEP = 1e6/getIntProp("speed.print",15);
 }
 
 void loadGhostBlockConfig(){
-	ENABLE_GHOST_BLOCKS = getBoolProp("gostblocks",0);
+	ghostMode = getBoolProp("ghostblocks",0);
 }
 
 void loadFieldConfig(){

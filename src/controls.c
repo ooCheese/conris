@@ -15,10 +15,15 @@ int moveTetro(Tetro * player, Vector2D * direction, int * field);
 Tetro *spawnTetro(Tetro *tetro,int *field,int wasGrounded);
 Tetro *spawn(int * field);
 Tetro *manipulateField(Tetro *tetro,int * field,int tetroId, int wasGounded);
+int manipulateFieldOnPos(Tetro *tetro,int posX, int posY,int * field,int tetroId, int wasGrounded, int ignoreFullCells);
+
+int insertBlocksInField(Block * block,int * field,int posX, int posY,int tetroId,int wasGrounded,int ignoreFullCells);
 
 void checkResult(int result, int * field);
+void createGhost(Tetro *tetro,int * field);
 int checkBlock(Tetro * player,int * field, int x, int y,int yDirection);
 int checkMovment(Tetro * player, Vector2D * direction, int * field);
+int checkMovemetOnPos(Tetro * player,int posX, int posY, Vector2D * direction, int * field);
 
 void rotatePlayer(Tetro * player,int * field);
 void rotatePlayerOnFreeCells(Tetro * player,int * field);
@@ -37,6 +42,9 @@ void hold(int *field);
 
 int down_with_result(int * field);
 
+void createPlayerGhost(int * field);
+void createGhost(Tetro * tetro,int * field);
+
 extern char 
         DOWN_KEY,
         LEFT_KEY,
@@ -47,11 +55,13 @@ extern char
         DOWN_TO_GROUND_KEY;
 
 Tetro * player;
+Tetro * ghost = NULL;
 Tetro * holded = NULL;
 
 extern int isHolded;
 extern int next = -1;
 extern int isGameOver = 0;
+extern int ghostMode = 1;
 
 extern void handleInput(int input,int  * field){
 	
@@ -138,6 +148,10 @@ void rotatePlayer(Tetro * player,int * field){
 	}
 
 	checkResult(result,field);
+
+	if(ghostMode && result){
+		createPlayerGhost(field);
+	}
 }
 
 void rotatePlayerOnFreeCells(Tetro * player,int * field){
@@ -179,6 +193,10 @@ int moveTetro(Tetro * player, Vector2D * direction, int  * field){
     }
     
     checkResult(result,field);
+
+	if(ghostMode && result){
+		createPlayerGhost(field);
+	}
 
 	return result;
 	
@@ -226,29 +244,88 @@ Tetro *spawnTetro(Tetro *tetro,int * field,int wasGrounded){
     return manipulateField(tetro,field,tetro->id,wasGrounded);
 }
 
-Tetro *manipulateField(Tetro *tetro,int * field,int tetroId, int wasGrounded){
-    int i,x,y;
-    Block *block;
+void createPlayerGhost(int * field){
+	if(player != NULL){
+		createGhost(player,field);
+	}
+}
+
+void createGhost(Tetro *tetro,int * field){
+	Vector2D * dir;
+	int x,y;
+
+	x = tetro->pos->x;
+	y = tetro->pos->y;
+	dir = createVector2D(0,1);
+
+
+	while(FREE == checkMovemetOnPos(tetro,x,y,dir,field)){
+		y++;
+	}
+	free(dir);
+
+	if(ghost != NULL){
+		manipulateFieldOnPos(ghost,ghost->pos->x,ghost->pos->y,field,getEmptyIdentifier(),0,1);
+	}else{
+		ghost = createGhostTetro(GHOST_ID,player->name);
+	}
+
+	ghost->pos->x = x;
+	ghost->pos->y = y;
+	copyBlocks(tetro,ghost);
+
+	manipulateFieldOnPos(tetro,x,y,field,GHOST_ID,0,1);
+	
+
+}
+
+Tetro * manipulateField(Tetro *tetro,int * field,int tetroId, int wasGrounded){
+    int i;
+
+    manipulateFieldOnPos(tetro,tetro->pos->x,tetro->pos->y,field,tetroId,wasGrounded,0);
+    return tetro;
+}
+
+int manipulateFieldOnPos(Tetro *tetro,int posX, int posY,int * field,int tetroId, int wasGrounded, int ignoreFullCells){
+	int i;
+
+	for(i = 0;i<MAX_BLOCKS;i++){
+
+        if (!insertBlocksInField(tetro->block[i],field,posX,posY,tetroId,wasGrounded,ignoreFullCells)){
+			return 0;
+		}
+    }
+
+	return 1;
+}
+
+int insertBlocksInField(Block * block,int * field,int posX, int posY,int tetroId,int wasGrounded, int ignoreFullCells){
+	int x,y;
 	int * fieldStart = field;
 
-    for(i = 0;i<MAX_BLOCKS;i++){
-        block = tetro->block[i];
-        x = block->pos->x;
-        y = block->pos->y;
-        x += tetro->pos->x;
-        y += tetro->pos->y;
+	x = block->pos->x;
+    y = block->pos->y;
 
-		
-        field+= y*getMaxX()+x;
-        if(wasGrounded && *field >= getBlockIdentifier()){
-			isGameOver = 1;
-			return tetro;
+	x += posX;
+	y += posY;
+
+	field+= y*getMaxX()+x;
+
+    if(wasGrounded && *field >= getBlockIdentifier()){
+		isGameOver = 1;
+		return 0;
+	}
+
+	if(ignoreFullCells){
+		if(*field < getBlockIdentifier()){
+			*field = tetroId;
 		}
-        
-        *field = tetroId;
-        field = fieldStart;
-    }
-    return tetro;
+	}else{
+		*field = tetroId;
+	}
+	
+
+	return 1;
 }
 
 void checkResult(int result, int * field){ 
@@ -266,11 +343,15 @@ void grounded(int * field){
 }
 
 int checkMovment(Tetro * player, Vector2D * direction, int * field){
-    int i, x,y, result; 
+   return checkMovemetOnPos(player,player->pos->x,player->pos->y,direction,field);
+}
+
+int checkMovemetOnPos(Tetro * player,int posX, int posY, Vector2D * direction, int * field){
+	int i, x,y, result; 
 	
     for(i = 0; i<MAX_BLOCKS;i++){
-        x = player->pos->x;
-        y = player->pos->y;
+        x = posX;
+        y = posY;
         x += player->block[i]->pos->x;
         y += player->block[i]->pos->y;
         
@@ -300,7 +381,7 @@ int checkBlock(Tetro * player,int * field, int x, int y,int yDirection){
 	}
 	
 	field+=y*getMaxX()+x;
-	if(*field != getEmptyIdentifier() && checkCell(player,x,y)){
+	if(*field > getEmptyIdentifier() && checkCell(player,x,y)){
 		field = startCell;
 		
 		if(yDirection != 0){

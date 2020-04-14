@@ -240,7 +240,7 @@ void printCell(int identifier){
         changeColor(CONSOLE_COLORS[fieldColorNumber]);
         
     }else if(identifier == GHOST_ID){
-        printf("%c ", GHOST_ID);
+        printf("%c ", GHOST_LOOK);
     }else{
         printf("%c ", EMPTY_LOOK);
     }

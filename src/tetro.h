@@ -29,8 +29,11 @@ typedef struct tetro{
 void setSpawnPos(int x);
 void setTetroColors(int Ic,int Lc,int Jc,int Tc,int Sc, int Zc,int Oc);
 
+void copyBlocks(Tetro * source, Tetro * target);
+
 void deleteTetro(Tetro * t);
 Tetro *createTetro(int id,char name,Vector2D * blockPos[4]);
+Tetro *createGhostTetro(int id,char name);
 Tetro *createI();
 Tetro *createL();
 Tetro *createJ();
