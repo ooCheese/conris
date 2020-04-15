@@ -8,7 +8,7 @@
 int * field;
 Node * head = NULL;
 int isAlive = 0;
-pthread_t thread;
+pthread_t thread = NULL;
 
 static void * startQueue(void * vargp);
 
@@ -25,11 +25,20 @@ extern void addNode(void (*run)(int *)){
 	
 	if(head == NULL){
 		head = new;
+
+		if(thread != NULL){ /*Clean up last Thread*/
+			pthread_join(thread,NULL);
+		}
+
 		rc = pthread_create(&thread, NULL, &startQueue, NULL);
 		assert(!rc);
 	}else{
 		head->next = new;
 	}
+}
+
+extern void waitforQueue(){
+	pthread_join(thread,NULL);
 }
 
 static void * startQueue(void * vargp){

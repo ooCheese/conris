@@ -92,6 +92,7 @@ int gameLoop(int * field){
     pthread_join(fallThread, NULL );
     pthread_join(printThread, NULL );
     addNode(&deleteField);
+	waitforQueue();
     gameover();
     
     return EXIT_SUCCESS;

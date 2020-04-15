@@ -188,10 +188,11 @@ int moveTetro(Tetro * player, Vector2D * direction, int  * field){
 
     if(result == FREE){
         deleteTetroFromField(player,field);
-        addTwoVector2D(player->pos,direction);
+        addTwoVector2D_NotFreeAdded(player->pos,direction);
         spawnTetro(player,field,0);
     }
-    
+
+	free(direction);
     checkResult(result,field);
 
 	if(ghostMode && result){

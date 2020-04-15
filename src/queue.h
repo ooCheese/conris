@@ -8,3 +8,4 @@ typedef struct node{
 
 void setField(int * f);
 void addNode(void (*run)(int *));
+void waitforQueue();
