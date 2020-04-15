@@ -101,7 +101,7 @@ void hold(int  *field){
 			player = holded;
 			holded = tmp;
 
-			player->pos->y = 0;
+			player->pos->y = calcMinY(player)*-1;
 			player->pos->x = getMaxX()/2;
 			spawnTetro(player,field,1);
 		}
@@ -280,7 +280,6 @@ void createGhost(Tetro *tetro,int * field){
 }
 
 Tetro * manipulateField(Tetro *tetro,int * field,int tetroId, int wasGrounded){
-    int i;
 
     manipulateFieldOnPos(tetro,tetro->pos->x,tetro->pos->y,field,tetroId,wasGrounded,0);
     return tetro;
@@ -301,7 +300,6 @@ int manipulateFieldOnPos(Tetro *tetro,int posX, int posY,int * field,int tetroId
 
 int insertBlocksInField(Block * block,int * field,int posX, int posY,int tetroId,int wasGrounded, int ignoreFullCells){
 	int x,y;
-	int * fieldStart = field;
 
 	x = block->pos->x;
     y = block->pos->y;

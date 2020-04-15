@@ -18,7 +18,6 @@ extern void setTetroColors(int Ic,int Lc,int Jc,int Tc,int Sc, int Zc,int Oc){
 int spawnPos = 0;
 
 extern Tetro *createGhostTetro(int id,char name){
-    int i;
     Tetro * tetro = malloc(sizeof(Tetro));
     
 	tetro ->name = name;
@@ -26,6 +25,20 @@ extern Tetro *createGhostTetro(int id,char name){
     tetro ->pos = createVector2D(0,0);
 
     return tetro;
+}
+
+extern int calcMinY(Tetro * tetro){
+    int i,tmp;
+    int min = 0;
+
+    for(i = 0;i<MAX_BLOCKS;i++){
+        tmp = tetro->block[i]->pos->y;
+        if(tmp < min){
+            min = tmp;
+        }
+    }
+
+    return min;
 }
 
 extern void copyBlocks(Tetro * source, Tetro * target){
