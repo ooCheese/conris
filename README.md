@@ -29,7 +29,18 @@ CONRIS is  a 'Tetris' game for the Linux Terminal.
 
 ## Usage
 
-install <b>Makefile</b> (make)
+install <b>Makefile</b> (make), <b>gcc</b> (as C-Compiler)
+and <b>ncurses</b>
+
+you can install gcc and ncurses on Debian/Ubuntu via apt-get:
+
+```
+sudo apt-get install build-essential libncursesw5-dev
+```
+and make with
+```
+sudo apt install make
+```
 
 
 compile and run the programm with the command "<b>make run</b>" in the conris folder 
