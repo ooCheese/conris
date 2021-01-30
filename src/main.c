@@ -32,6 +32,7 @@ void loadFieldConfig();
 void loadKeyConfig();
 void loadCountDownConfig();
 void loadColorConfig();
+void loadRandConfig();
 
 static void *playerTurn(void * vargp);
 static void *systemTurn(void * vargp);
@@ -177,6 +178,7 @@ void loadConfig(){
 		loadPrintConfig();
 		loadColorConfig();
 		loadGhostBlockConfig();
+		loadRandConfig();
 
 		deleteAllConfigProps();
 	}
@@ -226,4 +228,13 @@ void loadColorConfig(){
 		colorNameToNumber(getStringProp("color.Z","NORMAL")),
 		colorNameToNumber(getStringProp("color.O","NORMAL"))
 	);
+}
+
+void loadRandConfig(){
+
+	if(getBoolProp("rand.seedbytime",1)){
+		srand(time(NULL));
+	}else{
+		srand((unsigned int)getIntProp("rand.seed",1));
+	}
 }

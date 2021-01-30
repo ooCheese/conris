@@ -123,3 +123,15 @@ color.S = GREEN
 color.Z = RED
 color.O = YELLOW
 ```
+
+### Random
+change the (random)seed of the block generator.
+
+if seedbytime is true than the seed whould generate by the (system)time.
+otherwise the system use the value of rand.seed (unsigned int)
+
+```
+rand.seedbytime=true
+rand.seed=0
+```
+
