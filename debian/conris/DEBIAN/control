@@ -2,7 +2,7 @@ Package: conris
 Version: 0.1-1
 Architecture: amd64
 Maintainer: ooCheese <>
-Installed-Size: 42
+Installed-Size: 46
 Depends: libc6 (>= 2.4)
 Section: devl
 Priority: optional

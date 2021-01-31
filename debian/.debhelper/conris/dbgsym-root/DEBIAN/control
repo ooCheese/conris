@@ -10,4 +10,4 @@ Depends: conris (= 0.1-1)
 Section: debug
 Priority: optional
 Description: debug symbols for conris
-Build-Ids: 7fedb9e0b9e0467a77d64c51e4c85964004c1eeb
+Build-Ids: 325d3e3fc1b22544f3cfaee9d927e70dbaf959b8

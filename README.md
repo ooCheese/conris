@@ -146,3 +146,11 @@ rand.seedbytime=true
 rand.seed=0
 ```
 
+## DEBIAN PACKAGE
+install and run the Debian Package with
+```
+sudo apt install ./conris_0.1-1_amd64.deb
+conris
+```
+
+configurations under /etc/conris/config.properties

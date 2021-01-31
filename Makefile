@@ -1,6 +1,7 @@
 .PHONY: run clean conris install distclean uninstall
 
 prefix= /usr/local
+macros= -DGCONFG
 
 objects= src/main.c src/controls.c src/vector2d.c src/tetro.c src/score.c \
 		 src/field.c src/queue.c src/readSingelChar.c src/configReader.c src/ghostTetro.c
@@ -8,7 +9,7 @@ objects= src/main.c src/controls.c src/vector2d.c src/tetro.c src/score.c \
 output= conris
 
 conris: $(objects)
-	gcc -g -ansi -pedantic -Wall $(objects) -lpthread -lcurses -o $(output)
+	gcc $(macros) -g -ansi -pedantic -Wall $(objects) -lpthread -lcurses -o $(output)
 
 run: conris
 	./conris

@@ -21,6 +21,15 @@
 #define WAIT_IN_INTRO_SEC 1
 
 
+#ifdef GCONFIG
+#define CONFIG_PATH "etc/conris/config.properties"
+#else
+#define CONFIG_PATH "config.properties"
+#endif
+
+
+
+
 int gameLoop(int * field);
 
 void createGhoast();
@@ -170,7 +179,8 @@ void playerControl(int * field){
 }
 
 void loadConfig(){
-	if(readConfig("config.properties")){
+
+	if(readConfig(CONFIG_PATH)){
 		
 		loadFieldConfig();
 		loadKeyConfig();
