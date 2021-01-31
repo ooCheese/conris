@@ -1,0 +1,13 @@
+Package: conris-dbgsym
+Package-Type: ddeb
+Source: conris
+Version: 0.1-1
+Auto-Built-Package: debug-symbols
+Architecture: amd64
+Maintainer: ooCheese <>
+Installed-Size: 37
+Depends: conris (= 0.1-1)
+Section: debug
+Priority: optional
+Description: debug symbols for conris
+Build-Ids: 7fedb9e0b9e0467a77d64c51e4c85964004c1eeb

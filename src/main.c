@@ -181,6 +181,15 @@ void loadConfig(){
 		loadRandConfig();
 
 		deleteAllConfigProps();
+	}else{
+		setFieldSize(10,20);
+		DOWN_KEY = 'S';
+		LEFT_KEY = 'A';
+		RIGHT_KEY = 'D';
+		ROTATE_KEY = 'R';
+		QUIT_KEY = '.';
+		HOLD_KEY = 'H';
+		DOWN_TO_GROUND_KEY = ' ';
 	}
 }
 

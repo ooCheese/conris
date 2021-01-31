@@ -1,0 +1,11 @@
+Package: conris
+Version: 0.1-1
+Architecture: amd64
+Maintainer: ooCheese <>
+Installed-Size: 42
+Depends: libc6 (>= 2.4)
+Section: devl
+Priority: optional
+Multi-Arch: foreign
+Homepage: <insert the upstream URL, if relevant>
+Description: Tetris-like game for your linux terminal.

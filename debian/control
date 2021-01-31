@@ -1,0 +1,13 @@
+Source: conris
+Section: devl
+Priority: optional
+Maintainer: ooCheese <>
+Build-Depends: debhelper (>=11~)
+Standards-Version: 4.1.4
+Homepage: <insert the upstream URL, if relevant>
+
+Package: conris
+Architecture: any
+Multi-Arch: foreign
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Tetris-like game for your linux terminal.

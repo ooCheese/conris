@@ -1,0 +1,38 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: conris
+Source: <url://example.com>
+#
+# Please double check copyright with the licensecheck(1) command.
+
+Files:     .gitignore
+           Makefile
+           README.md
+           config.properties
+           conris
+           src/configReader.c
+           src/configReader.h
+           src/controls.c
+           src/controls.h
+           src/field.c
+           src/field.h
+           src/ghostTetro.c
+           src/ghostTetro.h
+           src/main.c
+           src/movement.c
+           src/movment.h
+           src/queue.c
+           src/queue.h
+           src/readSingelChar.c
+           src/readSingelChar.h
+           src/score.c
+           src/score.h
+           src/tetro.c
+           src/tetro.h
+           src/vector2d.c
+           src/vector2d.h
+Copyright: __NO_COPYRIGHT_NOR_LICENSE__
+License:   __NO_COPYRIGHT_NOR_LICENSE__
+
+#----------------------------------------------------------------------------
+# Files marked as NO_LICENSE_TEXT_FOUND may be covered by the following
+# license/copyright files.
