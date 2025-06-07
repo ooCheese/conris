@@ -72,8 +72,15 @@ int main(void){
     field = createField();
     setField(field);
     setSpawnPos(getMaxX()/2);
-    setNext(&next);
-    setControls(DOWN_KEY,LEFT_KEY,RIGHT_KEY,ROTATE_KEY,QUIT_KEY,HOLD_KEY,DOWN_TO_GROUND_KEY);
+    setNext(getNextPtr());
+    setControls(
+		getKeyMapping(DOWN_KEY),
+		getKeyMapping(LEFT_KEY),
+		getKeyMapping(RIGHT_KEY),
+		getKeyMapping(ROTATE_KEY),
+		getKeyMapping(QUIT_KEY),
+		getKeyMapping(HOLD_KEY),
+		getKeyMapping(DOWN_TO_GROUND_KEY));
     return gameLoop(field);
 }
 
@@ -83,6 +90,7 @@ int gameLoop(int * field){
     spawnPlayer(field);
     
     printIntroduction();
+
     if(countdownOn){
 		countDown();
 	}
@@ -135,7 +143,7 @@ void countDown(){
 static void *playerTurn(void * vargp){
 	
 	printField(field);
-	while(!isGameOver){
+	while(!isGameOver()){
 		playerControl(field);
     }
     
@@ -144,7 +152,7 @@ static void *playerTurn(void * vargp){
 
 static void *systemTurn(void * vargp){
 	
-	while(!isGameOver){
+	while(!isGameOver()){
 		usleep(getSpeed());
 		addNode(&down);
     }
@@ -154,7 +162,7 @@ static void *systemTurn(void * vargp){
 
 static void *printLoop(void * vargp){
 	
-	while(!isGameOver){
+	while(!isGameOver()){
 		printField(field);
 		usleep(PRINT_SLEEP);
 	}
@@ -193,13 +201,13 @@ void loadConfig(){
 		deleteAllConfigProps();
 	}else{
 		setFieldSize(10,20);
-		DOWN_KEY = 'S';
-		LEFT_KEY = 'A';
-		RIGHT_KEY = 'D';
-		ROTATE_KEY = 'R';
-		QUIT_KEY = '.';
-		HOLD_KEY = 'H';
-		DOWN_TO_GROUND_KEY = ' ';
+		setKeyMapping(DOWN_KEY,'S');
+		setKeyMapping(LEFT_KEY,'A');
+		setKeyMapping(RIGHT_KEY,'D');
+		setKeyMapping(ROTATE_KEY,'R');
+		setKeyMapping(QUIT_KEY,'.');
+		setKeyMapping(HOLD_KEY,'H');
+		setKeyMapping(DOWN_TO_GROUND_KEY,' ');
 	}
 }
 
@@ -208,7 +216,7 @@ void loadPrintConfig(){
 }
 
 void loadGhostBlockConfig(){
-	ghostMode = getBoolProp("ghostblocks",0);
+	setGhostMode(getBoolProp("ghostblocks",0));
 }
 
 void loadFieldConfig(){
@@ -219,13 +227,13 @@ void loadFieldConfig(){
 }
 
 void loadKeyConfig(){
-	DOWN_KEY =  getCharProp("key.down",'S');
-	LEFT_KEY =  getCharProp("key.left",'A');
-	RIGHT_KEY =  getCharProp("key.right",'D');
-	ROTATE_KEY = getCharProp("key.rotate",'R');
-	QUIT_KEY =  getCharProp("key.quit",'.');
-	HOLD_KEY = getCharProp("key.hold",'H');
-	DOWN_TO_GROUND_KEY = getCharProp("key.down2ground",' ');
+	setKeyMapping(DOWN_KEY,getCharProp("key.down",'S'));
+	setKeyMapping(LEFT_KEY,getCharProp("key.left",'A'));
+	setKeyMapping(RIGHT_KEY,getCharProp("key.right",'D'));
+	setKeyMapping(ROTATE_KEY,getCharProp("key.rotate",'R'));
+	setKeyMapping(QUIT_KEY,getCharProp("key.quit",'.'));
+	setKeyMapping(HOLD_KEY,getCharProp("key.hold",'H'));
+	setKeyMapping(DOWN_TO_GROUND_KEY,getCharProp("key.down2ground",' '));
 }
 
 void loadCountDownConfig(){

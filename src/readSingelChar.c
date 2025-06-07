@@ -23,7 +23,7 @@ void resetTermios(void)
   tcsetattr(0, TCSANOW, &old);
 }
 
-extern char getchLINUX(int echo){
+char getchLINUX(int echo){
 	char ch;
 	
 	initTermios(echo);

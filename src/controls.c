@@ -45,52 +45,63 @@ int down_with_result(int * field);
 void createPlayerGhost(int * field);
 void createGhost(Tetro * tetro,int * field);
 
-extern char 
-        DOWN_KEY,
-        LEFT_KEY,
-        RIGHT_KEY,
-        ROTATE_KEY,
-        QUIT_KEY,
-        HOLD_KEY,
-        DOWN_TO_GROUND_KEY;
-
 Tetro * player;
 Tetro * ghost = NULL;
 Tetro * holded = NULL;
 
-extern int isHolded;
-extern int next = -1;
-extern int isGameOver = 0;
-extern int ghostMode = 1;
+int _isHolded;
+int next = -1;
+int _isGameOver = 0;
+int _ghostMode = 1;
 
-extern void handleInput(int input,int  * field){
+void setGhostMode(int gm){
+	_ghostMode = gm;
+}
+
+int isGameOver(void){
+	return _isGameOver;
+}
+
+int * getNextPtr(void){
+	return &next;
+}
+
+char keyMappings[NUM_KEYS];
+
+void setKeyMapping(t_ControlKeyFunction typ, char key){
+	keyMappings[typ] = key;
+}
+
+char getKeyMapping(t_ControlKeyFunction typ){
+	return keyMappings[typ];
+}
+
+void handleInput(int input,int  * field){
 	
 	input = toupper(input);
-    
-    if(input == LEFT_KEY){
+
+	if (input == getKeyMapping(LEFT_KEY)){
 		addNode(&left);
-	}else if(input == RIGHT_KEY){
+	}else if(input == getKeyMapping(RIGHT_KEY)){
 		addNode(&right);
-	}else if(input == DOWN_KEY){
+	}else if(input == getKeyMapping(DOWN_KEY)){
 		addNode(&down);
-		fall();
-	}else if(input == ROTATE_KEY){
+	}else if(input == getKeyMapping(ROTATE_KEY)){
 		addNode(&rotate);
-	}else if(input == QUIT_KEY){
-		isGameOver = 1;
-	}else if(input == HOLD_KEY){
+	}else if(input == getKeyMapping(QUIT_KEY)){
+		_isGameOver = 1;
+	}else if(input == getKeyMapping(HOLD_KEY)){
 		addNode(&hold);
-	}else if(input == DOWN_TO_GROUND_KEY){
+	}else if(input == getKeyMapping(DOWN_TO_GROUND_KEY)){
 		addNode(&downToGround);
 	}
-	
 }
 
 void hold(int  *field){
 	Tetro * tmp;
 	
 	
-	if(!isHolded){
+	if(!_isHolded){
 		
 		manipulateField(player,field,getEmptyIdentifier(),0);
 		if(holded == NULL){
@@ -106,13 +117,13 @@ void hold(int  *field){
 			spawnTetro(player,field,1);
 		}
 		
-		isHolded = 1;
+		_isHolded = 1;
 		setNameOfHolded(holded->name);
 	}
 	
 }
 
-extern void down (int *field){
+void down (int *field){
 	down_with_result(field);
 }
 
@@ -149,7 +160,7 @@ void rotatePlayer(Tetro * player,int * field){
 
 	checkResult(result,field);
 
-	if(ghostMode && result){
+	if(_ghostMode && result){
 		createPlayerGhost(field);
 	}
 }
@@ -195,7 +206,7 @@ int moveTetro(Tetro * player, Vector2D * direction, int  * field){
 	free(direction);
     checkResult(result,field);
 
-	if(ghostMode && result){
+	if(_ghostMode && result){
 		createPlayerGhost(field);
 	}
 
@@ -214,7 +225,7 @@ Tetro *spawn(int * field){
 	
 	next = calculateRandomTetroId();
 	
-	isHolded = 0;
+	_isHolded = 0;
 	
 	switch(num){
 		case I: return spawnTetro(createI(),field,1);
@@ -311,7 +322,7 @@ int insertBlocksInField(Block * block,int * field,int posX, int posY,int tetroId
 	field+= y*getMaxX()+x;
 
     if(wasGrounded && *field >= getBlockIdentifier()){
-		isGameOver = 1;
+		_isGameOver = 1;
 		return 0;
 	}
 
@@ -331,7 +342,7 @@ void checkResult(int result, int * field){
 	if(result == GROUNDED){
 		grounded(field);
     }else if(result == GAME_OVER){
-		isGameOver = 1;
+		_isGameOver = 1;
 	}
 }
 

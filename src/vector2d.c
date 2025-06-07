@@ -4,7 +4,7 @@
 
 Vector2D * copyRotatedVectorToOther(Vector2D * source,Vector2D * target);
 
-extern Vector2D * createVector2D(int x, int y){
+ Vector2D * createVector2D(int x, int y){
     Vector2D * vector;
     
     vector = malloc(sizeof(Vector2D));
@@ -14,11 +14,11 @@ extern Vector2D * createVector2D(int x, int y){
     return vector;
 }
 
-extern void rotateOnVector2DClockwise(Vector2D * vector2D){
+ void rotateOnVector2DClockwise(Vector2D * vector2D){
     copyRotatedVectorToOther(vector2D,vector2D);
 }
 
-extern Vector2D * rotateVector2DClockwise(Vector2D * vector2D){
+ Vector2D * rotateVector2DClockwise(Vector2D * vector2D){
     return copyRotatedVectorToOther(vector2D,createVector2D(0,0));
 }
 
@@ -34,24 +34,24 @@ Vector2D * copyRotatedVectorToOther(Vector2D * source,Vector2D * target){
     return target;
 }
 
-extern void addTwoVector2D(Vector2D * vector, Vector2D * add){
+ void addTwoVector2D(Vector2D * vector, Vector2D * add){
 
     addTwoVector2D_NotFreeAdded(vector,add);
     free(add);
 }
-extern void addTwoVector2D_NotFreeAdded(Vector2D * vector, Vector2D * add){
+ void addTwoVector2D_NotFreeAdded(Vector2D * vector, Vector2D * add){
     vector->x += add->x;
     vector->y += add->y;
 }
 
-extern void subTwoVector2D(Vector2D * vector, Vector2D * sub){
+ void subTwoVector2D(Vector2D * vector, Vector2D * sub){
 
     vector->x -= sub->x;
     vector->y -= sub->y;
     free(sub);
 }
 
-extern void multiplyTwoVector2D(Vector2D * vector, Vector2D * vector2){
+ void multiplyTwoVector2D(Vector2D * vector, Vector2D * vector2){
     vector->x *= vector2->x;
     vector->y *= vector2->y;
 }

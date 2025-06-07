@@ -7,19 +7,24 @@
     #define GAME_OVER -2
     #define WRONG_INPUT -3
 
-    char 
+    #define NUM_KEYS 7
+
+    typedef enum {
         DOWN_KEY,
         LEFT_KEY,
         RIGHT_KEY,
         ROTATE_KEY,
         QUIT_KEY,
         HOLD_KEY,
-        DOWN_TO_GROUND_KEY;
+        DOWN_TO_GROUND_KEY
+    } t_ControlKeyFunction;
 
-    int isHolded;
-    int next;
-    int isGameOver;
-    int ghostMode;
+    void setGhostMode(int gm);
+    int isGameOver(void);
+    int * getNextPtr(void);
+
+    void setKeyMapping(t_ControlKeyFunction typ, char key);
+    char getKeyMapping(t_ControlKeyFunction typ);
 
     void handleInput(int input,int  * field);
     void gameover();

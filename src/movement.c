@@ -2,7 +2,7 @@
 #include "field.h"
 #include "tetro.h"
 
-extern int checkMovment(Tetro * player, Vector2D * direction, int * field){
+int checkMovment(Tetro * player, Vector2D * direction, int * field){
     int i, x,y, result; 
 	
     for(i = 0; i<MAX_BLOCKS;i++){

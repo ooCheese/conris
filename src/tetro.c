@@ -5,7 +5,7 @@
 
 int TETRO_COLORS [] = {I,L,J,T,S,Z,O};
 
-extern void setTetroColors(int Ic,int Lc,int Jc,int Tc,int Sc, int Zc,int Oc){
+void setTetroColors(int Ic,int Lc,int Jc,int Tc,int Sc, int Zc,int Oc){
     TETRO_COLORS[I] = Ic;
     TETRO_COLORS[L] = Lc;
     TETRO_COLORS[J] = Jc;
@@ -17,7 +17,7 @@ extern void setTetroColors(int Ic,int Lc,int Jc,int Tc,int Sc, int Zc,int Oc){
 
 int spawnPos = 0;
 
-extern Tetro *createGhostTetro(int id,char name){
+Tetro *createGhostTetro(int id,char name){
     int i;
     Tetro * tetro = malloc(sizeof(Tetro));
     
@@ -33,7 +33,7 @@ extern Tetro *createGhostTetro(int id,char name){
     return tetro;
 }
 
-extern int calcMinY(Tetro * tetro){
+ int calcMinY(Tetro * tetro){
     int i,tmp;
     int min = 0;
 
@@ -47,7 +47,7 @@ extern int calcMinY(Tetro * tetro){
     return min;
 }
 
-extern void copyBlocks(Tetro * source, Tetro * target){
+void copyBlocks(Tetro * source, Tetro * target){
     int i,x,y;
 
     for(i = 0;i<MAX_BLOCKS;i++){
@@ -59,7 +59,7 @@ extern void copyBlocks(Tetro * source, Tetro * target){
     }
 }
 
-extern Tetro *createTetro(int id,char name,Vector2D * blockPos[MAX_BLOCKS]){
+ Tetro *createTetro(int id,char name,Vector2D * blockPos[MAX_BLOCKS]){
     int i;
     Tetro * tetro = malloc(sizeof(Tetro));
     
@@ -75,11 +75,11 @@ extern Tetro *createTetro(int id,char name,Vector2D * blockPos[MAX_BLOCKS]){
     return tetro;
 }
 
-extern void setSpawnPos(int x){
+ void setSpawnPos(int x){
     spawnPos = x;
 }
 
-extern Tetro *createT(){
+ Tetro *createT(){
 	Vector2D *blocks [MAX_BLOCKS];
 
     blocks[0] = createVector2D(0,0);
@@ -89,7 +89,7 @@ extern Tetro *createT(){
     return createTetro(TETRO_COLORS[T],'T',blocks);
 }
 
-extern Tetro *createL(){
+ Tetro *createL(){
 	Vector2D *blocks [MAX_BLOCKS];
 
     blocks[0] = createVector2D(0,0);
@@ -99,7 +99,7 @@ extern Tetro *createL(){
     return createTetro(TETRO_COLORS[L],'L',blocks);
 }
 
-extern Tetro *createJ(){
+ Tetro *createJ(){
 	Vector2D *blocks [MAX_BLOCKS];
 
     blocks[0] = createVector2D(0,0);
@@ -109,7 +109,7 @@ extern Tetro *createJ(){
     return createTetro(TETRO_COLORS[J],'J',blocks);
 }
 
-extern Tetro *createZ(){
+ Tetro *createZ(){
 	Vector2D *blocks [MAX_BLOCKS];
 
     blocks[0] = createVector2D(0,0);
@@ -119,7 +119,7 @@ extern Tetro *createZ(){
     return createTetro(TETRO_COLORS[Z],'Z',blocks);
 }
 
-extern Tetro *createS(){
+ Tetro *createS(){
 	Vector2D *blocks [MAX_BLOCKS];
 
     blocks[0] = createVector2D(0,0);
@@ -129,7 +129,7 @@ extern Tetro *createS(){
     return createTetro(TETRO_COLORS[S],'S',blocks);
 }
 
-extern Tetro *createI(){
+ Tetro *createI(){
     Vector2D *blocks [MAX_BLOCKS];
 
     blocks[0] = createVector2D(0,0);
@@ -139,7 +139,7 @@ extern Tetro *createI(){
     return createTetro(TETRO_COLORS[I],'I',blocks);
 }
 
-extern Tetro *createO(){
+ Tetro *createO(){
     Vector2D *blocks [MAX_BLOCKS];
 
     blocks[0] = createVector2D(0,0);
@@ -149,7 +149,7 @@ extern Tetro *createO(){
     return createTetro(TETRO_COLORS[O],'O',blocks);
 }
 
-extern void deleteTetro(Tetro * t){
+ void deleteTetro(Tetro * t){
 	int i;
 	
 	free(t->pos);

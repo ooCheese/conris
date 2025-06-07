@@ -42,7 +42,7 @@ Tetro *createJ();
 Tetro *createT();
 Tetro *createZ();
 Tetro *createS();
-extern Tetro *createO();
+ Tetro *createO();
 
 #endif
 

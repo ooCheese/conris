@@ -17,7 +17,7 @@ int speed = BASE_SLEEP;
 void calculateSpeed();
 void nextLvl();
 
-extern void lineClears(int num){
+void lineClears(int num){
 
     if(num == 4){
         points += CONRIS_BONUS;
@@ -38,7 +38,7 @@ void nextLvl(){
 	calculateSpeed();
 }
 
-extern void fall(){
+void fall(){
     points+= POINTS_PER_FALL;
 }
 
@@ -46,18 +46,18 @@ void calculateSpeed(){
 	speed = BASE_SLEEP -(getLvl()*SPEED_FACTOR);
 }
 
-extern int getSpeed(){
+int getSpeed(){
 	return speed;
 }
 
-extern int getLvl(){
+int getLvl(){
 	return lvl;
 }
 
-extern int getLines(){
+int getLines(){
     return lines;
 }
 
-extern int getPoints(){
+int getPoints(){
     return points;
 }

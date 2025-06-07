@@ -52,64 +52,64 @@ char nameOfHolded = ' ';
 BlockList * ghostBlock  = NULL;
 
 
-extern void setColormode(int mode){
+void setColormode(int mode){
     colormode = mode;
 }
 
-extern void setNameOfHolded(char name){
+void setNameOfHolded(char name){
 	nameOfHolded = name;
 }
 
-extern void setNext(int *n){
+void setNext(int *n){
 	nextP = n;
 }
 
 static int MAX_FIELD_X;
 static int MAX_FIELD_Y;
 
-extern void setFieldSize(int x, int y){
+void setFieldSize(int x, int y){
 	MAX_FIELD_X = x;
 	MAX_FIELD_Y = y;
 	printf("fieldSize: %i %i \n",x,y);
 }
 
-extern void setBlockLook(char n){
+ void setBlockLook(char n){
 	BLOCK_LOOK = n;
 }
 
-extern int getEmptyIdentifier(){
+ int getEmptyIdentifier(){
     return EMPTY;
 }
 
-extern int getBlockIdentifier(){
+ int getBlockIdentifier(){
     return NORMAL_BLOCK;
 }
 
-extern void setEmptyLook(char n){
+ void setEmptyLook(char n){
 	EMPTY_LOOK = n;
 }
 
-extern char getEmptyLook(){
+ char getEmptyLook(){
 	return EMPTY_LOOK;
 }
 
-extern char getBlockLook(){
+ char getBlockLook(){
 	return BLOCK_LOOK;
 }
 
-extern int getMaxY(){
+int getMaxY(){
 	return MAX_FIELD_Y;
 }
 
-extern int getMaxX(){
+ int getMaxX(){
 	return MAX_FIELD_X;
 }
 
-extern void setFieldColor(char * colorname){
+ void setFieldColor(char * colorname){
     fieldColorNumber = colorNameToNumber(colorname);
 }
 
-extern void setControls(char cd,char cl, char cr,char cro,char cq, char ch,char cd2g){
+void setControls(char cd,char cl, char cr,char cro,char cq, char ch,char cd2g){
 	controlDown = cd;
 	controlLeft = cl;
 	controlRight = cr;
@@ -119,11 +119,11 @@ extern void setControls(char cd,char cl, char cr,char cro,char cq, char ch,char 
     controlDownToGround = cd2g;
 }
 
-extern void deleteField(int * field){
+void deleteField(int * field){
 	free(field);
 }
 
-extern int colorNameToNumber(char * colorname){
+int colorNameToNumber(char * colorname){
     if(strstr("NORMAL",colorname)){
         return 0;
     }else if(strstr("RED",colorname)){
@@ -180,7 +180,7 @@ void printRightBorder(){
     printf("|");
 }
 
-extern void printPreView(int count){
+void printPreView(int count){
 	int i,j;
 	
 
@@ -205,7 +205,7 @@ extern void printPreView(int count){
 		
 }
 
-extern void printField(int *field){
+void printField(int *field){
     int i,j;
 
     for(i = 0; i <MAX_FIELD_Y;i++){
@@ -219,7 +219,6 @@ extern void printField(int *field){
         printRightBorder();
         
         printExtraInfos(i);
-		
 		printf("\n");
     }
     
@@ -264,7 +263,7 @@ char viewNext(){
 	}
 }
 
-extern int *createField (){
+int *createField (){
     int i,j;
     int * p, * tmp;
     
@@ -283,7 +282,7 @@ extern int *createField (){
     return tmp;
 }
 
-extern void clearLine(int * field, int line){
+void clearLine(int * field, int line){
     int i,j;
     int * prevCell;
     prevCell = field;
@@ -305,7 +304,7 @@ extern void clearLine(int * field, int line){
 
 }
 
-extern void checkForLineClear(int * field){
+void checkForLineClear(int * field){
     int i,isFull,count = 0;
     int * startField;
 
@@ -339,7 +338,7 @@ int checkLine(int * line){
     return 1;
 }
 
-extern void clearGhostBlocks(){
+void clearGhostBlocks(){
     BlockList * tmp;
 
     while(ghostBlock != NULL){
@@ -350,7 +349,7 @@ extern void clearGhostBlocks(){
     }
 }
 
-extern void addGhostBlock(int x, int y){
+void addGhostBlock(int x, int y){
 
     if(y < MAX_FIELD_Y && y >= 0){
         changeCell(x,y,GHOST_ID);
@@ -359,11 +358,11 @@ extern void addGhostBlock(int x, int y){
 }
     
 
-extern void changeCell(int x, int y, int id){
+void changeCell(int x, int y, int id){
     int * pos = jumoToFieldPositon(x,y);
     *pos = id;
 }
 
-extern int * jumoToFieldPositon(int x , int y){
+int * jumoToFieldPositon(int x , int y){
     return fieldp + (y*MAX_FIELD_X)+x;
 }

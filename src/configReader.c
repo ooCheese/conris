@@ -24,7 +24,7 @@ void addKeyWord(char * keyword, char  * value);
 char * findByKey(char  * keyword);
 int filterInt(char *p,int def);
 
-extern int readConfig(char * path){
+int readConfig(char * path){
 	FILE * file;
 	
 	if((file = fopen(path,"r")) == NULL){
@@ -91,7 +91,7 @@ void addKeyWord(char * keyword, char * value){
 	
 }
 
-extern int getBoolProp(char * keyword, char def){
+int getBoolProp(char * keyword, char def){
 	char * p;
 	
 	p = findByKey(keyword);
@@ -106,7 +106,7 @@ extern int getBoolProp(char * keyword, char def){
 	return def;
 }
 
-extern char * getStringProp(char * keyword,char * def){
+char * getStringProp(char * keyword,char * def){
 	char * value;
 
 	value  = findByKey(keyword);
@@ -116,7 +116,7 @@ extern char * getStringProp(char * keyword,char * def){
 	return value;
 }
 
-extern char getCharProp(char * keyword,char def){
+char getCharProp(char * keyword,char def){
 	char * p, * tmp;
 	
 	p = findByKey(keyword);
@@ -139,7 +139,7 @@ extern char getCharProp(char * keyword,char def){
 	return def;
 }
 
-extern int getIntProp(char * keyword, int def){
+int getIntProp(char * keyword, int def){
 	char * p;
 	
 	p = findByKey(keyword);
@@ -186,7 +186,7 @@ char * findByKey(char * keyword){
 	
 }
 
-extern void deleteAllConfigProps(){
+void deleteAllConfigProps(){
 	KeyWordNode * tmp, * tmpold;
 	
 	tmp = confhead;

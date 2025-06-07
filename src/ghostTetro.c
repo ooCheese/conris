@@ -3,7 +3,7 @@
 
 BlockList * jumpToLastBlock(BlockList * blockList);
 
-extern BlockList * createGhostBlock(int x, int y,BlockList * ghostBlocks){
+BlockList * createGhostBlock(int x, int y,BlockList * ghostBlocks){
     BlockList * new = malloc(sizeof(BlockList));
 
     new->next = NULL;

@@ -31,7 +31,7 @@
 	int colorNameToNumber(char * colorname);
 
 	void addGhostBlock(int x, int y);
-	extern void clearGhostBlocks();
+	void clearGhostBlocks();
 	void changeCell(int x, int y, int id);
 	int * jumoToFieldPositon(int x , int y);
 	

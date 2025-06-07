@@ -12,11 +12,11 @@ pthread_t thread = NULL;
 
 static void * startQueue(void * vargp);
 
-extern void setField(int * f){
+void setField(int * f){
 	field = f;
 }
 
-extern void addNode(void (*run)(int *)){
+void addNode(void (*run)(int *)){
 	int rc;
 	Node * new = malloc(sizeof(Node));
 	
@@ -37,7 +37,7 @@ extern void addNode(void (*run)(int *)){
 	}
 }
 
-extern void waitforQueue(){
+void waitforQueue(){
 	pthread_join(thread,NULL);
 }
 
